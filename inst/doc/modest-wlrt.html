@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Using the Magirr-Burman weights for testing</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using the Magirr-Burman weights for
+testing</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p><span class="citation">Magirr and Burman (2019)</span> implemented a
+modestly weighted logrank test with the following claim:</p>
+<blockquote>
+<p>Tests from this new class can be constructed to have high power under
+a delayed-onset treatment effect scenario, as well as being almost as
+efficient as the standard logrank test under proportional hazards.</p>
+</blockquote>
+<p>They have implemented this in the package <a href="https://github.com/dominicmagirr/modestWLRT">modestWLRT</a>. Since
+the implementation is relatively straightforward, we have added this
+functionality to the simtrial package and explain how to use it here
+with the <code>mb_weight()</code> function.</p>
+<p>Packages used are as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simtrial)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span></code></pre></div>
+</div>
+<div id="simulating-a-delayed-effect-example" class="section level2">
+<h2>Simulating a delayed effect example</h2>
+<p>First, we specify study duration, sample size and enrollment rates.
+The enrollment rate is assumed constant during the enrollment period
+until the targeted sample size is reached. For failure rates, we
+consider the delayed treatment effect example of <span class="citation">Magirr and Burman (2019)</span>. The control group has
+an exponential failure rate with a median of 15 months. For the initial
+6 months, the underlying hazard ratio is one followed by a hazard ratio
+of 0.7 thereafter. This differs from the <span class="citation">Magirr
+and Burman (2019)</span> delayed effect assumptions only in that they
+assume a hazard ratio of 0.5 after 6 months.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>study_duration <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">300</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>enroll_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">duration =</span> <span class="dv">12</span>, <span class="at">rate =</span> <span class="dv">200</span> <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fail_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">stratum =</span> <span class="fu">c</span>(<span class="st">&quot;All&quot;</span>, <span class="st">&quot;All&quot;</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">36</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fail_rate =</span> <span class="fu">c</span>(<span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">/</span> <span class="dv">15</span>, <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">/</span> <span class="dv">15</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">hr =</span> <span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">7</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">dropout_rate =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Now we generate a single dataset with the above characteristics and
+cut data for analysis at 36 months post start of enrollment. Then we
+plot Kaplan-Meier curves for the resulting dataset (red curve for
+experimental treatment, black for control):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7789</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>xpar <span class="ot">&lt;-</span> <span class="fu">to_sim_pw_surv</span>(fail_rate)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>MBdelay <span class="ot">&lt;-</span> <span class="fu">sim_pw_surv</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> sample_size,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">stratum =</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="at">p =</span> <span class="dv">1</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">block =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;control&quot;</span>, <span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">&quot;experimental&quot;</span>, <span class="dv">2</span>)),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">enroll_rate =</span> enroll_rate,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">fail_rate =</span> xpar<span class="sc">$</span>fail_rate,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">dropout_rate =</span> xpar<span class="sc">$</span>dropout_rate</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cut_data_by_date</span>(study_duration)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(tte, event) <span class="sc">~</span> treatment, <span class="at">data =</span> MBdelay)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">mark =</span> <span class="st">&quot;|&quot;</span>, <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">xaxp =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">36</span>, <span class="dv">6</span>))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="generalizing-the-magirr-burman-test" class="section level2">
+<h2>Generalizing the Magirr-Burman test</h2>
+<p>Next, we consider the <span class="citation">Magirr (2021)</span>
+extension of the modestly weighted logrank test (MWLRT) of <span class="citation">Magirr and Burman (2019)</span> where we have weights
+as follows:</p>
+<p><span class="math display">\[w(t, \tau, w_{\max}) =
+\min\left(w_{\max},\left(\frac{1}{S(\min(t,\tau))}\right)\right).\]</span></p>
+<p>This requires generating weights and then computing the test. We
+begin with the default of <code>w_max=Inf</code> which corresponds to
+the original <span class="citation">Magirr and Burman (2019)</span> test
+and set the time until maximum weight <span class="math inline">\(\tau\)</span> with <code>delay = 6</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ZMB <span class="ot">&lt;-</span> MBdelay <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">counting_process</span>(<span class="at">arm =</span> <span class="st">&quot;experimental&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mb_weight</span>(<span class="at">delay =</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">S =</span> <span class="fu">sum</span>(o_minus_e <span class="sc">*</span> mb_weight),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">sum</span>(var_o_minus_e <span class="sc">*</span> mb_weight<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">z =</span> S <span class="sc">/</span> <span class="fu">sqrt</span>(V)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute p-value of modestly weighted logrank of Magirr-Burman</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(ZMB<span class="sc">$</span>z)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1395378</span></span></code></pre></div>
+<p>Now we set the maximum weight to be 2 as in <span class="citation">Magirr (2021)</span> and set the <code>delay=Inf</code>
+so that the maximum weight begins at the observed median of the observed
+combined treatment Kaplan-Meier curve.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ZMB <span class="ot">&lt;-</span> MBdelay <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">counting_process</span>(<span class="at">arm =</span> <span class="st">&quot;experimental&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mb_weight</span>(<span class="at">delay =</span> <span class="cn">Inf</span>, <span class="at">w_max =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">S =</span> <span class="fu">sum</span>(o_minus_e <span class="sc">*</span> mb_weight),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">sum</span>(var_o_minus_e <span class="sc">*</span> mb_weight<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">z =</span> S <span class="sc">/</span> <span class="fu">sqrt</span>(V)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute p-value of modestly weighted logrank of Magirr-Burman</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(ZMB<span class="sc">$</span>z)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1387672</span></span></code></pre></div>
+<p>Another way this can be done is with a generalized Fleming-Harrington
+test with</p>
+<p><span class="math display">\[w(t; \rho, \gamma, w_{\max})=
+\min((1-F(t))^\rho F(t)^\gamma, w_{\max})).\]</span></p>
+<p>and let <span class="math inline">\(\gamma=0, \rho =
+-1/2.\)</span></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>w_max <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Z_modified_FH <span class="ot">&lt;-</span> MBdelay <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">counting_process</span>(<span class="at">arm =</span> <span class="st">&quot;experimental&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">w =</span> <span class="fu">pmin</span>(w_max, <span class="dv">1</span> <span class="sc">/</span> s)) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">S =</span> <span class="fu">sum</span>(o_minus_e <span class="sc">*</span> w),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">sum</span>(var_o_minus_e <span class="sc">*</span> w<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">z =</span> S <span class="sc">/</span> <span class="fu">sqrt</span>(V)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute p-value of modestly weighted logrank of Magirr-Burman</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(Z_modified_FH<span class="sc">$</span>z)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1387672</span></span></code></pre></div>
+<div id="freidlin-and-korn-strong-null-hypothesis-example" class="section level3">
+<h3>Freidlin and Korn strong null hypothesis example</h3>
+<p>For the next example, underlying survival is uniformly worse in the
+experimental group compared to control throughout the planned follow-up.
+This was presented by <span class="citation">Freidlin and Korn
+(2019)</span>. For this case, we have a hazard ratio of 16 for 1/10 of 1
+year (1.2 months), followed by a hazard ratio of 0.76 thereafter.</p>
+<p>First, we specify study duration, sample size and enrollment rates.
+The enrollment rate is assumed constant during the enrollment period
+until the targeted sample size is reached. For failure rates, we
+consider the delayed treatment effect example of <span class="citation">Magirr and Burman (2019)</span>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>study_duration <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>enroll_duration <span class="ot">&lt;-</span> .<span class="dv">0001</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>enroll_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration =</span> enroll_duration,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rate =</span> sample_size <span class="sc">/</span> enroll_duration</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>fail_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fail_rate =</span> <span class="fl">0.25</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">dropout_rate =</span> <span class="dv">0</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">hr =</span> <span class="fu">c</span>(<span class="dv">4</span> <span class="sc">/</span> .<span class="dv">25</span>, .<span class="dv">19</span> <span class="sc">/</span> .<span class="dv">25</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="fl">4.9</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Now we generate a single dataset with the above characteristics and
+cut data for analysis at 5 years post start of enrollment. Then we plot
+Kaplan-Meier curves for the resulting dataset (red curve for
+experimental treatment, black for control):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7783</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>xpar <span class="ot">&lt;-</span> <span class="fu">to_sim_pw_surv</span>(fail_rate)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>FHwn <span class="ot">&lt;-</span> <span class="fu">sim_pw_surv</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> sample_size,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">stratum =</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="at">p =</span> <span class="dv">1</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">block =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;control&quot;</span>, <span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">&quot;experimental&quot;</span>, <span class="dv">2</span>)),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">enroll_rate =</span> enroll_rate,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">fail_rate =</span> xpar<span class="sc">$</span>fail_rate,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">dropout_rate =</span> xpar<span class="sc">$</span>dropout_rate</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cut_data_by_date</span>(study_duration)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(tte, event) <span class="sc">~</span> treatment, <span class="at">data =</span> FHwn)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">mark =</span> <span class="st">&quot;|&quot;</span>, <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">xaxp =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">36</span>, <span class="dv">6</span>))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>We perform a logrank and weighted logrank tests as suggested for more
+limited downweighting by follows:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>xx <span class="ot">&lt;-</span> FHwn <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">counting_process</span>(<span class="at">arm =</span> <span class="st">&quot;experimental&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fh_weight</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rho_gamma =</span> <span class="fu">data.frame</span>(<span class="at">rho =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">gamma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">return_corr =</span> <span class="cn">TRUE</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> <span class="fu">pnorm</span>(z))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>xx</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   rho gamma         z        v1        v2        v3            p</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   0     0  4.808526 1.0000000 0.8652115 0.9356769 0.9999992398</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   0     1 -3.204735 0.8652115 1.0000000 0.9580098 0.0006759349</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   1     1 -1.220445 0.9356769 0.9580098 1.0000000 0.1111481087</span></span></code></pre></div>
+<p>Now for a MaxCombo test with the above component tests, we have
+p-value of</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>xx <span class="sc">|&gt;</span> <span class="fu">pvalue_maxcombo</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.001256683</span></span></code></pre></div>
+<p>Next, we consider the <span class="citation">Magirr and Burman
+(2019)</span> modestly weighted logrank test with down-weighting
+specified for the first 6 months but a maximum weight of 2. This
+requires generating weights and then computing the test.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ZMB <span class="ot">&lt;-</span> FHwn <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">counting_process</span>(<span class="at">arm =</span> <span class="st">&quot;experimental&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mb_weight</span>(<span class="at">delay =</span> <span class="dv">6</span>, <span class="at">w_max =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">S =</span> <span class="fu">sum</span>(o_minus_e <span class="sc">*</span> mb_weight),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">sum</span>(var_o_minus_e <span class="sc">*</span> mb_weight<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">z =</span> S <span class="sc">/</span> <span class="fu">sqrt</span>(V)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute p-value of modestly weighted logrank of Magirr-Burman</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(ZMB<span class="sc">$</span>z)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.920727</span></span></code></pre></div>
+<p>Finally, we consider weighted logrank tests with less down-weighting.
+Results are quite similar to the results with greater
+down-weighting.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>xx <span class="ot">&lt;-</span> FHwn <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">counting_process</span>(<span class="at">arm =</span> <span class="st">&quot;experimental&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fh_weight</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rho_gamma =</span> <span class="fu">data.frame</span>(<span class="at">rho =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">gamma =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">5</span>, .<span class="dv">5</span>)),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">return_corr =</span> <span class="cn">TRUE</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> <span class="fu">pnorm</span>(z))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>xx</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   rho gamma          z        v1        v2        v3         p</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 0.0   0.0  4.8085258 1.0000000 0.9421013 0.9709414 0.9999992</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 0.0   0.5 -0.6919228 0.9421013 1.0000000 0.9872682 0.2444929</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 0.5   0.5  0.9278452 0.9709414 0.9872682 1.0000000 0.8232561</span></span></code></pre></div>
+<p>Now for a MaxCombo test with the above component tests, we have
+p-value of</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>xx <span class="sc">|&gt;</span> <span class="fu">pvalue_maxcombo</span>()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2915952</span></span></code></pre></div>
+<p>Thus, with less down-weighting the MaxCombo test appears less
+problematic. This is addressed at greater length in <span class="citation">Mukhopadhyay et al. (2022)</span>.</p>
+</div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-FKNPH2019" class="csl-entry">
+Freidlin, Boris, and Edward L Korn. 2019. <span>“Methods for
+Accommodating Nonproportional Hazards in Clinical Trials: Ready for the
+Primary Analysis?”</span> <em>Journal of Clinical Oncology</em> 37 (35):
+3455–59.
+</div>
+<div id="ref-Magirr2021" class="csl-entry">
+Magirr, Dominic. 2021. <span>“Non-Proportional Hazards in
+Immuno-Oncology: Is an Old Perspective Needed?”</span>
+<em>Pharmaceutical Statistics</em> 20 (3): 512–27.
+</div>
+<div id="ref-MagirrBurman" class="csl-entry">
+Magirr, Dominic, and Carl-Fredrik Burman. 2019. <span>“Modestly Weighted
+Logrank Tests.”</span> <em>Statistics in Medicine</em> 38 (20): 3782–90.
+</div>
+<div id="ref-Mukhopadhyay2022" class="csl-entry">
+Mukhopadhyay, Pralay, Jiabu Ye, Keaven M Anderson, Satrajit
+Roychoudhury, Eric H Rubin, Susan Halabi, and Richard J Chappell. 2022.
+<span>“Log-Rank Test Vs MaxCombo and Difference in Restricted Mean
+Survival Time Tests for Comparing Survival Under Nonproportional Hazards
+in Immuno-Oncology Trials: A Systematic Review and
+Meta-Analysis.”</span> <em>JAMA Oncology</em>.
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
