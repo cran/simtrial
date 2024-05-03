@@ -1,10 +1,11 @@
 test_that("early_zero_weight() with unstratified data", {
   # Example 1: Unstratified
   set.seed(123)
-  input <- sim_pw_surv(n = 200)
-  input <- cut_data_by_event(input, 125)
-  input <- counting_process(input, arm = "experimental")
-  output <- early_zero_weight(input, early_period = 2)
+
+  output <- sim_pw_surv(n = 200) |>
+    cut_data_by_event(125) |>
+    counting_process(arm = "experimental") |>
+    early_zero_weight(early_period = 2)
 
   observed <- output$weight
   expected <- rep(c(0, 1), c(15L, 110L))
@@ -12,6 +13,8 @@ test_that("early_zero_weight() with unstratified data", {
 })
 
 test_that("early_zero_weight() with stratified data", {
+  skip_if_not_installed("gsDesign2")
+
   # Example 2: Stratified
   n <- 500
   # Two strata
@@ -54,11 +57,13 @@ test_that("early_zero_weight() with stratified data", {
   output <- early_zero_weight(input, early_period = 2, fail_rate = fail_rate)
 
   observed <- output$weight
-  expected <- rep(c(0, 0.8, 0, 0.7), c(43L, 20L, 29L, 33L))
+  expected <- rep(c(0, log(0.8), 0, log(0.7)), c(43L, 20L, 29L, 33L))
   expect_equal(observed, expected)
 })
 
 test_that("early_zero_weight() fails with bad input", {
+  skip_if_not_installed("gsDesign2")
+
   # Example 2: Stratified
   n <- 500
   # Two strata

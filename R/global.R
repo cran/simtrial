@@ -1,4 +1,4 @@
-#  Copyright (c) 2023 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the simtrial program.
@@ -55,8 +55,10 @@ utils::globalVariables(
     "time",
     "treatment",
     "tte",
+    "v",
     "var_o_minus_e",
-    "weight"
+    "weight",
+    "z"
   )
 )
 

@@ -4,9 +4,12 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+run <- if (rlang::is_installed(c("dplyr", "gt"))) TRUE else FALSE
+knitr::opts_chunk$set(eval = run)
+
 ## ----message=FALSE, warning=FALSE---------------------------------------------
 library(simtrial)
-library(knitr)
+library(gt)
 library(dplyr)
 
 ## -----------------------------------------------------------------------------
@@ -71,12 +74,17 @@ x <- sim_pw_surv(
   fail_rate = fail_rate,
   dropout_rate = dropout_rate
 )
-head(x) |> kable(digits = 2)
+
+head(x) |>
+  gt() |>
+  fmt_number(columns = c("enroll_time", "fail_time", "dropout_time", "cte"), decimals = 2)
 
 ## -----------------------------------------------------------------------------
 y <- cut_data_by_date(x, cut_date = 5)
 
-head(y) |> kable(digits = 2)
+head(y) |>
+  gt() |>
+  fmt_number(columns = "tte", decimals = 2)
 
 ## -----------------------------------------------------------------------------
 cut50Positive <- get_cut_date_by_event(filter(x, stratum == "Positive"), 50)
@@ -91,7 +99,9 @@ table(y150$event, y150$treatment)
 ## -----------------------------------------------------------------------------
 ten150 <- counting_process(y150, arm = "experimental")
 
-head(ten150) |> kable(digits = 2)
+head(ten150) |>
+  gt() |>
+  fmt_number(columns = c("tte", "o_minus_e", "var_o_minus_e"), decimals = 2)
 
 ## -----------------------------------------------------------------------------
 z <- with(ten150, sum(o_minus_e) / sqrt(sum(var_o_minus_e)))
@@ -103,22 +113,24 @@ z <- with(xx, sum(o_minus_e * w) / sum(sqrt(var_o_minus_e * w^2)))
 c(z, pnorm(z))
 
 ## -----------------------------------------------------------------------------
-fh_weight(
-  x = ten150,
-  rho_gamma = data.frame(rho = c(0, 0, 1, 1), gamma = c(0, 1, 0, 1))
-) |> kable(digits = 2)
+fh00 <- y150 |> wlr(weight = fh(rho = 0, gamma = 0))
+fh01 <- y150 |> wlr(weight = fh(rho = 0, gamma = 1))
+fh10 <- y150 |> wlr(weight = fh(rho = 1, gamma = 0))
+fh11 <- y150 |> wlr(weight = fh(rho = 1, gamma = 1))
+
+temp_tbl <- fh00 |>
+  unlist() |>
+  as.data.frame() |>
+  cbind(fh01 |> unlist() |> as.data.frame()) |>
+  cbind(fh10 |> unlist() |> as.data.frame()) |>
+  cbind(fh11 |> unlist() |> as.data.frame())
+
+colnames(temp_tbl) <- c("Test 1", "Test 2", "Test 3", "Test 4")
+temp_tbl
 
 ## ----message=FALSE------------------------------------------------------------
-x <- ten150 |>
-  fh_weight(
-    rho_gamma = data.frame(rho = c(0, 0, 1, 1), gamma = c(0, 1, 0, 1)),
-    return_corr = TRUE
-  )
-x |> kable(digits = 2)
-
-## ----message=FALSE------------------------------------------------------------
-# Compute p-value for MaxCombo
-pvalue_maxcombo(x)
+y150 |>
+  maxcombo(rho = c(0, 0, 1, 1), gamma = c(0, 1, 0, 1))
 
 ## -----------------------------------------------------------------------------
 stratum <- data.frame(stratum = "All", p = 1)
@@ -148,7 +160,9 @@ sim_fixed_n(
   block = block, # Block for treatment
   timing_type = 1:5, # Use all possible data cutoff methods
   rho_gamma = rho_gamma # FH test(s) to use; in this case, logrank
-) |> kable(digits = 2)
+) |>
+  gt() |>
+  fmt_number(columns = c("ln_hr", "z", "duration"))
 
 ## -----------------------------------------------------------------------------
 enroll_rate |> summarize(

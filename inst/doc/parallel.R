@@ -106,9 +106,9 @@ print(duration_sequential)
 ## ----plan-sequential----------------------------------------------------------
 plan(sequential)
 
-## ----compare-results----------------------------------------------------------
-sum(seq_result1 != seq_result1m)
-sum(seq_result2 != seq_result2m)
+## ----compare-results, eval=FALSE----------------------------------------------
+#  sum(seq_result1 != seq_result1m)
+#  sum(seq_result2 != seq_result2m)
 
 ## ----schema, echo=FALSE, fig.cap="Available resource schematic.", fig.align="center", out.width="90%"----
 knitr::include_graphics("schema.png")

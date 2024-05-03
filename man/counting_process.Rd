@@ -43,14 +43,18 @@ hypothesis)
 \description{
 Produces a data frame that is sorted by stratum and time.
 Included in this is only the times at which one or more event occurs.
-The output dataset contains stratum, tte (time-to-event),
-at risk count and count of events at the specified tte
-sorted by stratum and tte.
+The output dataset contains stratum, TTE (time-to-event),
+at risk count, and count of events at the specified TTE
+sorted by stratum and TTE.
 }
 \details{
 The function only considered two group situation.
 
 The tie is handled by the Breslow's Method.
+
+The output produced by \code{\link[=counting_process]{counting_process()}} produces a
+counting process dataset grouped by stratum and sorted within stratum
+by increasing times where events occur.
 }
 \examples{
 # Example 1

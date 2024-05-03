@@ -4,6 +4,9 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+run <- if (rlang::is_installed(c("dplyr"))) TRUE else FALSE
+knitr::opts_chunk$set(eval = run)
+
 ## ----message=FALSE, warning=FALSE---------------------------------------------
 library(simtrial)
 library(dplyr)
@@ -39,25 +42,13 @@ axis(1, xaxp = c(0, 36, 6))
 
 ## -----------------------------------------------------------------------------
 ZMB <- MBdelay |>
-  counting_process(arm = "experimental") |>
-  mb_weight(delay = 6) |>
-  summarize(
-    S = sum(o_minus_e * mb_weight),
-    V = sum(var_o_minus_e * mb_weight^2),
-    z = S / sqrt(V)
-  )
+  wlr(weight = mb(delay = 6))
 # Compute p-value of modestly weighted logrank of Magirr-Burman
 pnorm(ZMB$z)
 
 ## -----------------------------------------------------------------------------
 ZMB <- MBdelay |>
-  counting_process(arm = "experimental") |>
-  mb_weight(delay = Inf, w_max = 2) |>
-  summarize(
-    S = sum(o_minus_e * mb_weight),
-    V = sum(var_o_minus_e * mb_weight^2),
-    z = S / sqrt(V)
-  )
+  wlr(weight = mb(delay = Inf, w_max = 2))
 # Compute p-value of modestly weighted logrank of Magirr-Burman
 pnorm(ZMB$z)
 
@@ -108,40 +99,18 @@ axis(1, xaxp = c(0, 36, 6))
 
 ## -----------------------------------------------------------------------------
 xx <- FHwn |>
-  counting_process(arm = "experimental") |>
-  fh_weight(
-    rho_gamma = data.frame(rho = c(0, 0, 1), gamma = c(0, 1, 1)),
-    return_corr = TRUE
-  ) |>
-  mutate(p = pnorm(z))
+  maxcombo(rho = c(0, 0, 1), gamma = c(0, 1, 1))
 xx
 
 ## -----------------------------------------------------------------------------
-xx |> pvalue_maxcombo()
-
-## -----------------------------------------------------------------------------
 ZMB <- FHwn |>
-  counting_process(arm = "experimental") |>
-  mb_weight(delay = 6, w_max = 2) |>
-  summarize(
-    S = sum(o_minus_e * mb_weight),
-    V = sum(var_o_minus_e * mb_weight^2),
-    z = S / sqrt(V)
-  )
+  wlr(weight = mb(delay = 6, w_max = 2))
 
 # Compute p-value of modestly weighted logrank of Magirr-Burman
 pnorm(ZMB$z)
 
 ## -----------------------------------------------------------------------------
 xx <- FHwn |>
-  counting_process(arm = "experimental") |>
-  fh_weight(
-    rho_gamma = data.frame(rho = c(0, 0, .5), gamma = c(0, .5, .5)),
-    return_corr = TRUE
-  ) |>
-  mutate(p = pnorm(z))
+  maxcombo(rho = c(0, 0, .5), gamma = c(0, .5, .5))
 xx
-
-## -----------------------------------------------------------------------------
-xx |> pvalue_maxcombo()
 

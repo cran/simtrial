@@ -7,15 +7,21 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 
+run <- if (rlang::is_installed(c("dplyr", "ggplot2"))) TRUE else FALSE
+knitr::opts_chunk$set(eval = run)
+
 ## ----message=FALSE, warning=FALSE---------------------------------------------
 library(simtrial)
-library(bshazard)
 library(ggplot2)
 library(dplyr)
 library(survival)
-set.seed(123)
+
+## ----eval=FALSE---------------------------------------------------------------
+#  remotes::install_github("cran/bshazard")
 
 ## -----------------------------------------------------------------------------
+set.seed(123)
+
 dloglogis <- function(x, alpha = 1, beta = 4) {
   1 / (1 + (x / alpha)^beta)
 }
@@ -68,8 +74,33 @@ head(y)
 fit <- survfit(Surv(tte, event) ~ 1, data = y)
 plot(fit, mark = "|")
 
+## ----echo=FALSE---------------------------------------------------------------
+fit <- readRDS("fit-bshazard.rds")
+
+plot.bshazard <- function(
+    x, conf.int = TRUE, overall = TRUE, col = 1, lwd = 1, lty = 1,
+    xlab = "Time", ylab = "Hazard rate", border = NA, col.fill = "lightgrey",
+    ...) {
+  plot(
+    x$time, x$hazard,
+    xlab = xlab, type = "l", ylab = ylab,
+    lwd = lwd, lty = lty, col = col, ...
+  )
+  polygon(
+    c(x$time, rev(x$time)), c(x$low, rev(x$up)),
+    col = col.fill, border = border, ...
+  )
+  lines(
+    x$time, x$hazard,
+    xlab = xlab, type = "l",
+    ylab = ylab, lwd = 2, lty = lty, col = col, ...
+  )
+}
+
+## ----eval=FALSE---------------------------------------------------------------
+#  fit <- bshazard::bshazard(Surv(tte, event) ~ 1, data = y, nk = 120)
+
 ## -----------------------------------------------------------------------------
-fit <- bshazard(Surv(tte, event) ~ 1, data = y, nk = 120)
 plot(fit, conf.int = TRUE, xlab = "Time", xlim = c(0, 3), ylim = c(0, 2.5), lwd = 2)
 lines(x = times, y = (xx |> mutate(Time = lag(cumsum(duration), default = 0)))$rate, col = 2)
 

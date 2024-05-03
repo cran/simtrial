@@ -1,4 +1,4 @@
-#  Copyright (c) 2023 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
+#  Copyright (c) 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
 #  This file is part of the simtrial program.
@@ -29,7 +29,7 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("dplyr")
 #' library(dplyr)
 #'
 #' # Use default enrollment and calendar cut date
