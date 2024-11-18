@@ -60,7 +60,7 @@
 #'
 #' @export
 #'
-#' @examplesIf rlang::is_installed("dplyr")
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
 #' library(dplyr)
 #'
 #' # Example 1
@@ -191,5 +191,9 @@ sim_pw_surv <- function(
   ans[, fail := (fail_time <= dropout_time) * 1]
 
   setDF(ans)
+
+  attr(ans, "ratio") <- sum(block == "experimental") / sum(block == "control")
+  attr(ans, "generate_by_simpwsurv") <- "yes"
+
   return(ans)
 }

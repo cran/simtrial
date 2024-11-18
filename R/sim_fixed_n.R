@@ -68,12 +68,12 @@
 #'
 #' @importFrom data.table ":=" rbindlist setDF
 #' @importFrom doFuture "%dofuture%"
-#' @importFrom future plan
+#' @importFrom future nbrOfWorkers plan
 #' @importFrom methods is
 #'
 #' @export
 #'
-#' @examplesIf rlang::is_installed("dplyr")
+#' @examplesIf requireNamespace("dplyr", quietly = TRUE)
 #' library(dplyr)
 #' library(future)
 #'
@@ -252,7 +252,7 @@ sim_fixed_n <- function(
   results <- foreach::foreach(
     i = seq_len(n_sim),
     .combine = "rbind",
-    .errorhandling = "pass",
+    .errorhandling = "stop",
     .options.future = list(seed = TRUE)
   ) %dofuture% {
     # Generate piecewise data ----
@@ -369,15 +369,13 @@ sim_fixed_n <- function(
 
     results_sim <- rbindlist(addit)
     results_sim[, sim := i]
-    setDF(results_sim)
-    results <- rbind(results, results_sim)
-    # return(results_sim)
+    results_sim
   }
-
+  setDF(results)
   return(results)
 }
 
-# Build a function to calculate test related statistics (e.g., z, estimation, se, etc.) and log-hr
+# Build a function to calculate test related statistics (e.g., z, estimate, se, etc.) and log-hr
 doAnalysis <- function(d, rho_gamma, n_stratum) {
   if (nrow(rho_gamma) == 1) {
     res <- d |>
@@ -386,7 +384,7 @@ doAnalysis <- function(d, rho_gamma, n_stratum) {
     ans <- data.frame(
       method = res$method,
       parameter = res$parameter,
-      estimation = res$estimation,
+      estimate = res$estimate,
       se = res$se,
       z = res$z
     )
@@ -397,7 +395,7 @@ doAnalysis <- function(d, rho_gamma, n_stratum) {
     ans <- data.frame(
       method = rep(res$method, nrow(rho_gamma)),
       parameter = rep(res$parameter, nrow(rho_gamma)),
-      estimation = rep("-", nrow(rho_gamma)),
+      estimate = rep("-", nrow(rho_gamma)),
       se = rep("-", nrow(rho_gamma)),
       z = res$z,
       p_value = rep(res$p_value, nrow(rho_gamma))

@@ -26,11 +26,11 @@ is at risk in both treatment group and control group.
 Other variables in this represent the following within each stratum at
 each time at which one or more events are observed:
 \itemize{
-\item \code{events}: Total number of events
-\item \code{n_event_tol}: Total number of events at treatment group
-\item \code{n_risk_tol}: Number of subjects at risk
+\item \code{event_total}: Total number of events
+\item \code{event_trt}: Total number of events at treatment group
+\item \code{n_risk_total}: Number of subjects at risk
 \item \code{n_risk_trt}: Number of subjects at risk in treatment group
-\item \code{S}: Left-continuous Kaplan-Meier survival estimate
+\item \code{s}: Left-continuous Kaplan-Meier survival estimate
 \item \code{o_minus_e}: In treatment group, observed number of events minus expected
 number of events. The expected number of events is estimated by assuming
 no treatment effect with hypergeometric distribution with parameters total
@@ -54,7 +54,10 @@ The tie is handled by the Breslow's Method.
 
 The output produced by \code{\link[=counting_process]{counting_process()}} produces a
 counting process dataset grouped by stratum and sorted within stratum
-by increasing times where events occur.
+by increasing times where events occur. The object is assigned the class
+"counting_process". It also has the attributes "n_ctrl" and "n_exp",
+which are the totals of the control and experimental treatments,
+respectively, from the input time-to-event data.
 }
 \examples{
 # Example 1

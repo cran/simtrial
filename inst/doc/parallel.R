@@ -111,7 +111,7 @@ plan(sequential)
 #  sum(seq_result2 != seq_result2m)
 
 ## ----schema, echo=FALSE, fig.cap="Available resource schematic.", fig.align="center", out.width="90%"----
-knitr::include_graphics("schema.png")
+knitr::include_graphics("./figures/schema.png")
 
 ## ----nested-topology, eval=FALSE----------------------------------------------
 #  nodes <- c("n1", "n2")

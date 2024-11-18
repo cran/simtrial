@@ -856,6 +856,13 @@ text-indent: 20px;
 #bwknrsauuj .gt_indent_5 {
 text-indent: 25px;
 }
+#bwknrsauuj .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#bwknrsauuj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
@@ -892,14 +899,15 @@ of treatment group 1 and 2 at predefined time <span class="math inline">\(\tau\)
 treatment groups (<span class="math inline">\(\theta\)</span>) can be
 defined as <span class="math display">\[
   \theta = \text{RMST}_1(\tau) - \text{RMST}_2(\tau).
-\]</span> The expected value of <span class="math inline">\(\theta\)</span> is <span class="math inline">\(E(\theta) = E[RMST_{1}(\tau)] -
-E[RMST_{2}(\tau)]\)</span>. If two treatment groups are independent, the
-variance of <span class="math inline">\(\theta\)</span> is <span class="math display">\[
+\]</span> The expected value of <span class="math inline">\(\theta\)</span> is <span class="math inline">\(E(\theta) = E[\text{RMST}_{1}(\tau)] -
+E[\text{RMST}_{2}(\tau)]\)</span>. If two treatment groups are
+independent, the variance of <span class="math inline">\(\theta\)</span>
+is <span class="math display">\[
   \text{Var}(\theta) = \sigma_{1}^{2} + \sigma_{2}^{2}
 \]</span></p>
 <p>Similarly, the <span class="math inline">\((1-\alpha)\)</span>
-confidence interval for <span class="math inline">\(\text{RMST}\)</span>
-difference between 2 groups can be calculated as: <span class="math display">\[
+confidence interval for RMST difference between 2 groups can be
+calculated as: <span class="math display">\[
   \left[
     \hat{\theta} - z_{\alpha/2}\sqrt{\hat{\sigma}_1^2 +
 \hat{\sigma}_2^2},
@@ -926,7 +934,7 @@ difference between 2 groups can be calculated as: <span class="math display">\[
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; $parameter</span></span>
 <span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span>
 <span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; $estimation</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; $estimate</span></span>
 <span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; [1] 0.8650493</span></span>
 <span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; $se</span></span>

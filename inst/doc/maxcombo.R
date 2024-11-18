@@ -4,7 +4,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-run <- if (rlang::is_installed(c("dplyr", "gt"))) TRUE else FALSE
+run <- requireNamespace("dplyr", quietly = TRUE) &&
+  requireNamespace("gt", quietly = TRUE)
 knitr::opts_chunk$set(eval = run)
 
 ## ----message=FALSE, warning=FALSE---------------------------------------------

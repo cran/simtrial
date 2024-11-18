@@ -4,7 +4,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-run <- if (rlang::is_installed(c("dplyr"))) TRUE else FALSE
+run <- requireNamespace("dplyr", quietly = TRUE)
 knitr::opts_chunk$set(eval = run)
 
 ## ----message=FALSE, warning=FALSE---------------------------------------------
@@ -44,13 +44,13 @@ axis(1, xaxp = c(0, 36, 6))
 ZMB <- MBdelay |>
   wlr(weight = mb(delay = 6))
 # Compute p-value of modestly weighted logrank of Magirr-Burman
-pnorm(ZMB$z)
+pnorm(ZMB$z, lower.tail = FALSE)
 
 ## -----------------------------------------------------------------------------
 ZMB <- MBdelay |>
   wlr(weight = mb(delay = Inf, w_max = 2))
 # Compute p-value of modestly weighted logrank of Magirr-Burman
-pnorm(ZMB$z)
+pnorm(ZMB$z, lower.tail = FALSE)
 
 ## -----------------------------------------------------------------------------
 w_max <- 2
@@ -107,7 +107,7 @@ ZMB <- FHwn |>
   wlr(weight = mb(delay = 6, w_max = 2))
 
 # Compute p-value of modestly weighted logrank of Magirr-Burman
-pnorm(ZMB$z)
+pnorm(ZMB$z, lower.tail = FALSE)
 
 ## -----------------------------------------------------------------------------
 xx <- FHwn |>

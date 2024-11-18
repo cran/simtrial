@@ -5,7 +5,7 @@ knitr::opts_chunk$set(
 )
 
 ## ----echo=FALSE, fig.align="center", out.width="85%"--------------------------
-knitr::include_graphics("workflow.png")
+knitr::include_graphics("./figures/workflow.png")
 
 ## ----echo=FALSE, eval=FALSE---------------------------------------------------
 #  g <- DiagrammeR::grViz("

@@ -18,31 +18,37 @@
 
 #' Simulate group sequential designs with fixed sample size
 #'
+#' This function uses the option "stop" for the error-handling behavior of the
+#' foreach loop. This will cause the entire function to stop when errors are
+#' encountered and return the first error encountered instead of returning
+#' errors for each individual simulation.
+#'
 #' WARNING: This experimental function is a work-in-progress. The function
 #' arguments will change as we add additional features.
 #'
 #' @inheritParams sim_fixed_n
-#' @param test One or more test functions such as [wlr()], [maxcombo()], or
-#'   [rmst()]. If a single test function is provided, it will be applied at each
-#'   cut. Alternatively a list of functions created by [create_test()]. The list
-#'   form is experimental and currently limited. It only accepts one test per
-#'   cutting (in the future multiple tests may be accepted), and all the tests
-#'   must consistently return the same exact results (again this may be more
-#'   flexible in the future). Importantly, note that the simulated data set is
-#'   always passed as the first positional argument to each test function
-#'   provided.
+#' @param test One or more test functions such as [wlr()], [rmst()], or
+#'   [milestone()] ([maxcombo()] can only be applied by itself). If a single
+#'   test function is provided, it will be applied at each cut. Alternatively a
+#'   list of functions created by [create_test()]. The list form is experimental
+#'   and currently limited. It only accepts one test per cutting (in the future
+#'   multiple tests may be accepted), and all the tests must consistently return
+#'   the same exact results (again this may be more flexible in the future).
+#'   Importantly, note that the simulated data set is always passed as the first
+#'   positional argument to each test function provided.
 #' @param cut A list of cutting functions created by [create_cut()], see
 #'   examples.
-#' @param seed Random seed.
 #' @param ... Arguments passed to the test function(s) provided by the argument
 #'   `test`.
 #'
 #' @return A data frame summarizing the simulation ID, analysis date,
 #'   z statistics or p-values.
 #'
+#' @importFrom data.table rbindlist setDF
+#'
 #' @export
 #'
-#' @examplesIf rlang::is_installed("gsDesign2")
+#' @examplesIf requireNamespace("gsDesign2", quietly = TRUE)
 #' library(gsDesign2)
 #'
 #' # Parameters for enrollment
@@ -81,7 +87,7 @@
 #' # - At least 20 months have elapsed after enrolling 200/400 subjects, with a
 #' #   minimum of 20 months follow-up.
 #' # However, if events accumulation is slow, we will wait for a maximum of 24 months.
-#' ia1 <- create_cut(
+#' ia1_cut <- create_cut(
 #'   planned_calendar_time = 20,
 #'   target_event_overall = 100,
 #'   max_extension_for_target_event = 24,
@@ -95,7 +101,7 @@
 #' # - At least 250 events have occurred.
 #' # - At least 10 months after IA1.
 #' # However, if events accumulation is slow, we will wait for a maximum of 34 months.
-#' ia2 <- create_cut(
+#' ia2_cut <- create_cut(
 #'   planned_calendar_time = 32,
 #'   target_event_overall = 200,
 #'   max_extension_for_target_event = 34,
@@ -106,135 +112,135 @@
 #' # The final analysis will occur at the later of the following 2 conditions:
 #' # - At least 45 months have passed since the start of the study.
 #' # - At least 300 events have occurred.
-#' fa <- create_cut(
+#' fa_cut <- create_cut(
 #'   planned_calendar_time = 45,
 #'   target_event_overall = 350
 #' )
 #'
-#' # Test 1: regular logrank test
+#' # Example 1: regular logrank test at all 3 analyses
 #' sim_gs_n(
 #'   n_sim = 3,
 #'   sample_size = 400,
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
 #'   test = wlr,
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut),
 #'   weight = fh(rho = 0, gamma = 0)
 #' )
 #'
-#' # Test 2: weighted logrank test by FH(0, 0.5)
+#' # Example 2: weighted logrank test by FH(0, 0.5) at all 3 analyses
 #' sim_gs_n(
 #'   n_sim = 3,
 #'   sample_size = 400,
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
 #'   test = wlr,
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut),
 #'   weight = fh(rho = 0, gamma = 0.5)
 #' )
 #'
-#' # Test 3: weighted logrank test by MB(3)
+#' # Example 3: weighted logrank test by MB(3) at all 3 analyses
 #' sim_gs_n(
 #'   n_sim = 3,
 #'   sample_size = 400,
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
 #'   test = wlr,
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut),
 #'   weight = mb(delay = 3)
 #' )
 #'
-#' # Test 4: weighted logrank test by early zero (6)
+#' # Example 4: weighted logrank test by early zero (6) at all 3 analyses
 #' sim_gs_n(
 #'   n_sim = 3,
 #'   sample_size = 400,
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
 #'   test = wlr,
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut),
 #'   weight = early_zero(6)
 #' )
 #'
-#' # Test 5: RMST
+#' # Example 5: RMST at all 3 analyses
 #' sim_gs_n(
 #'   n_sim = 3,
 #'   sample_size = 400,
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
 #'   test = rmst,
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut),
 #'   tau = 20
 #' )
 #'
-#' # Test 6: Milestone
+#' # Example 6: Milestone at all 3 analyses
 #' sim_gs_n(
 #'   n_sim = 3,
 #'   sample_size = 400,
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
 #'   test = milestone,
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut),
 #'   ms_time = 10
 #' )
 #'
-#' # Test 7: MaxCombo (WLR-FH(0,0) + WLR-FH(0, 0.5))
-#' # for all analyses
-#' sim_gs_n(
-#'   n_sim = 3,
-#'   sample_size = 400,
-#'   enroll_rate = enroll_rate,
-#'   fail_rate = fail_rate,
-#'   test = maxcombo,
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
-#'   rho = c(0, 0),
-#'   gamma = c(0, 0.5)
-#' )
-#'
-#' # Test 8: MaxCombo (WLR-FH(0,0.5) + milestone(10))
-#' # for all analyses
+#' # Warning: this example will be executable when we add info info0 to the milestone test
+#' # Example 7: WLR with fh(0, 0.5) test at IA1,
+#' # WLR with mb(6, Inf) at IA2, and milestone test at FA
+#' ia1_test <- create_test(wlr, weight = fh(rho = 0, gamma = 0.5))
+#' ia2_test <- create_test(wlr, weight = mb(delay = 6, w_max = Inf))
+#' fa_test <- create_test(milestone, ms_time = 10)
 #' \dontrun{
 #' sim_gs_n(
 #'   n_sim = 3,
 #'   sample_size = 400,
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   test = maxcombo(test1 = wlr, test2 = milestone),
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
-#'   test1_par = list(weight = fh(rho = 0, gamma = 0.5)),
-#'   test2_par = list(ms_time = 10)
+#'   test = list(ia1 = ia1_test, ia2 = ia2_test, fa = fa_test),
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut)
 #' )
 #' }
 #'
-#' # Test 9: MaxCombo (WLR-FH(0,0) at IAs
-#' # and WLR-FH(0,0) + milestone(10) + WLR-MB(4,2) at FA)
+#' # WARNING: Multiple tests per cut will be enabled in a future version.
+#' #          Currently does not work.
+#' # Example 8: At IA1, we conduct 3 tests, LR, WLR with fh(0, 0.5), and RMST test.
+#' # At IA2, we conduct 2 tests, LR and WLR with early zero (6).
+#' # At FA, we conduct 2 tests, LR and milestone test.
+#' ia1_test <- list(
+#'   test1 = create_test(wlr, weight = fh(rho = 0, gamma = 0)),
+#'   test2 = create_test(wlr, weight = fh(rho = 0, gamma = 0.5)),
+#'   test3 = create_test(rmst, tau = 20)
+#' )
+#' ia2_test <- list(
+#'   test1 = create_test(wlr, weight = fh(rho = 0, gamma = 0)),
+#'   test2 = create_test(wlr, weight = early_zero(6))
+#' )
+#' fa_test <- list(
+#'   test1 = create_test(wlr, weight = fh(rho = 0, gamma = 0)),
+#'   test3 = create_test(milestone, ms_time = 20)
+#' )
 #' \dontrun{
 #' sim_gs_n(
 #'   n_sim = 3,
 #'   sample_size = 400,
 #'   enroll_rate = enroll_rate,
 #'   fail_rate = fail_rate,
-#'   test = list(ia1 = wlr, ia2 = wlr, fa = maxcombo),
-#'   cut = list(ia1 = ia1, ia2 = ia2, fa = fa),
-#'   seed = 2024,
-#'   test_par = list(
-#'     ia1 = list(weight = fh(rho = 0, gamma = 0)),
-#'     ia2 = list(weight = fh(rho = 0, gamma = 0)),
-#'     ia3 = list(
-#'       test1_par = list(weight = fh(rho = 0, gamma = 0)),
-#'       test2_par = list(ms_time = 10),
-#'       test3_par = list(delay = 4, w_max = 2)
-#'     )
-#'   )
+#'   test = list(ia1 = ia1_test, ia2 = ia2_test, fa = fa_test),
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut)
 #' )
 #' }
+#'
+#' # Example 9: regular logrank test at all 3 analyses in parallel
+#' plan("multisession", workers = 2)
+#' sim_gs_n(
+#'   n_sim = 3,
+#'   sample_size = 400,
+#'   enroll_rate = enroll_rate,
+#'   fail_rate = fail_rate,
+#'   test = wlr,
+#'   cut = list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut),
+#'   weight = fh(rho = 0, gamma = 0)
+#' )
+#' plan("sequential")
 sim_gs_n <- function(
     n_sim = 1000,
     sample_size = 500,
@@ -250,15 +256,30 @@ sim_gs_n <- function(
     block = rep(c("experimental", "control"), 2),
     test = wlr,
     cut = NULL,
-    seed = 2024,
     ...) {
   # Input checking
   # TODO
 
+  # parallel computation message for backends ----
+  if (!is(plan(), "sequential")) {
+    # future backend
+    message("Using ", nbrOfWorkers(), " cores with backend ", attr(plan("list")[[1]], "class")[2])
+  } else if (foreach::getDoParWorkers() > 1) {
+    message("Using ", foreach::getDoParWorkers(), " cores with backend ", foreach::getDoParName())
+    message("Warning: ")
+    message("doFuture may exhibit suboptimal performance when using a doParallel backend.")
+  } else {
+    message("Backend uses sequential processing.")
+  }
+
   # Simulate for `n_sim` times
-  ans <- NULL
-  for (sim_id in seq_len(n_sim)) {
-    set.seed(seed + sim_id)
+  ans <- foreach::foreach(
+    sim_id = seq_len(n_sim),
+    test = replicate(n=n_sim, expr=test, simplify = FALSE),
+    .combine = "rbind",
+    .errorhandling = "stop",
+    .options.future = list(seed = TRUE)
+  ) %dofuture% {
     # Generate data
     simu_data <- sim_pw_surv(
       n = sample_size,
@@ -273,7 +294,6 @@ sim_gs_n <- function(
     n_analysis <- length(cut)
     cut_date <- rep(-100, n_analysis)
     ans_1sim <- NULL
-
     # Organize tests for each cutting
     if (is.function(test)) {
       test_single <- test
@@ -294,18 +314,36 @@ sim_gs_n <- function(
 
       # Test
       ans_1sim_new <- test[[i_analysis]](simu_data_cut, ...)
-      ans_1sim_new$analysis <- i_analysis
-      ans_1sim_new$cut_date <- cut_date[i_analysis]
-      ans_1sim_new$sim_id <- sim_id
-      ans_1sim_new$n <- nrow(simu_data_cut)
-      ans_1sim_new$event <- sum(simu_data_cut$event)
+      ans_1sim_new <- c(sim_id = sim_id, ans_1sim_new)
+      ans_1sim_new <- append(
+        x = ans_1sim_new,
+        values = c(
+          analysis = i_analysis,
+          cut_date = cut_date[i_analysis],
+          n = nrow(simu_data_cut),
+          event = sum(simu_data_cut$event)
+        ),
+        after = 3
+      )
+      ans_1sim_new <- convert_list_to_df_w_list_cols(ans_1sim_new)
 
-      # rbind simulation results for all IA(s) and FA in 1 simulation
-      ans_1sim <- rbind(ans_1sim, ans_1sim_new)
+      # bind rows of simulation results for all IA(s) and FA in 1 simulation
+      ans_1sim_list <- list(ans_1sim, ans_1sim_new)
+      ans_1sim <- rbindlist(ans_1sim_list, use.names = TRUE, fill = TRUE)
+
     }
 
-    ans <- rbind(ans, ans_1sim)
+    ans_1sim
   }
+
+  setDF(ans)
+
+  test_method <- ans$method[ans$sim_id == 1]
+  if (all(substr(test_method, 1, 3) == "WLR")) {
+    class(ans) <- c("simtrial_gs_wlr", class(ans))
+    attr(ans, "method") <- unique(ans$parameter[ans$sim_id == 1])
+  }
+
   return(ans)
 }
 
@@ -337,6 +375,9 @@ sim_gs_n <- function(
 #' # Cut the trial data
 #' cutting(trial_data)
 create_cut <- function(...) {
+  # Force evaluation of input arguments (required for parallel computing)
+  lapply(X = list(...), FUN = force)
+
   function(data) {
     get_analysis_date(data, ...)
   }
@@ -421,4 +462,26 @@ multitest <- function(data, ...) {
     output[[i]] <- tests[[i]](data)
   }
   return(output)
+}
+
+# Convert a list to a one row data frame using list columns
+convert_list_to_df_w_list_cols <- function(x) {
+  stopifnot(is.list(x), !is.data.frame(x))
+
+  new_list <- vector(mode = "list", length = length(x))
+  names(new_list) <- names(x)
+
+  for (i in seq_along(x)) {
+    if (length(x[[i]]) > 1) {
+      new_list[[i]] <- I(list(x[[i]]))
+    } else {
+      new_list[i] <- x[i]
+    }
+  }
+
+  # Convert the list to a data frame with one row
+  df_w_list_cols <- do.call(data.frame, new_list)
+  stopifnot(nrow(df_w_list_cols) == 1)
+
+  return(df_w_list_cols)
 }
