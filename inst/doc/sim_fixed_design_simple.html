@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Yujie Zhao and Keaven Anderson" />
+
+
+<title>Simulate Fixed Designs with Ease via sim_fixed_n</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Simulate Fixed Designs with Ease via
+sim_fixed_n</h1>
+<h4 class="author">Yujie Zhao and Keaven Anderson</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(gsDesign2)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(simtrial)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2027</span>)</span></code></pre></div>
+<p>The <code>sim_fixed_n()</code> function simulates a two-arm trial
+with a single endpoint, accounting for time-varying enrollment, hazard
+ratios, and failure and dropout rates.</p>
+<p>While there are limitations, there are advantages of calling
+<code>sim_fixed_n()</code> directly:</p>
+<ul>
+<li>It is simple, which allows for a single function call to perform an
+arbitrary number of simulations.</li>
+<li>It automatically implements a parallel computating backend to reduce
+running time.</li>
+<li>It offers up to 5 options for determining the data cutoff for
+analysis through the <code>timing_type</code> parameter.</li>
+</ul>
+<p>If people are interested in more complicated simulations, please
+refer to the vignette <a href="https://merck.github.io/simtrial/articles/sim_fixed_design_custom.html">Custom
+Fixed Design Simulations: A Tutorial on Writing Code from the Ground
+Up</a>.</p>
+<p>The process for simulating via <code>sim_fixed_n()</code> is outlined
+in Steps 1 to 3 below.</p>
+<div id="step-1-define-design-parameters" class="section level1">
+<h1>Step 1: Define design parameters</h1>
+<p>To run simulations for a fixed design, several design characteristics
+may be used. Depending on the data cutoff for analysis option, different
+inputs may be required. The following lines of code specify an
+unstratified 2-arm trial with equal randomization. The simulation is
+repeated 2 times. Enrollment is targeted to last for 12 months at a
+constant enrollment rate. The median for the control arm is 10 months,
+with a delayed effect during the first 3 months followed by a hazard
+ratio of 0.7 thereafter. There is an exponential dropout rate of 0.001
+over time.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>n_sim <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>total_duration <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>stratum <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="at">p =</span> <span class="dv">1</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>block <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;experimental&quot;</span>, <span class="st">&quot;control&quot;</span>), <span class="dv">2</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>enroll_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="at">rate =</span> <span class="dv">12</span>, <span class="at">duration =</span> <span class="dv">500</span> <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>fail_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                        <span class="at">duration =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="cn">Inf</span>), <span class="at">fail_rate =</span> <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">/</span> <span class="dv">10</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                        <span class="at">hr =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.6</span>), <span class="at">dropout_rate =</span> <span class="fl">0.001</span>)</span></code></pre></div>
+<p>We specify sample size and targeted event count based on the
+<code>fixed_design_ahr()</code> function and the above options. The
+following design computes the sample size and targeted event counts for
+85% power. In this approach, users can obtain the sample size and
+targeted events from the output of <code>x</code>, specifically by using
+<code>sample_size &lt;- x$analysis$n</code> and
+<code>target_event &lt;- x$analysis$event</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">fixed_design_ahr</span>(<span class="at">enroll_rate =</span> enroll_rate, <span class="at">fail_rate =</span> fail_rate, </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="fl">0.025</span>, <span class="at">power =</span> <span class="fl">0.85</span>, <span class="at">ratio =</span> <span class="dv">1</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                      <span class="at">study_duration =</span> total_duration) <span class="sc">|&gt;</span> <span class="fu">to_integer</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">&quot;Sample Size and Targeted Events Based on AHR Method&quot;</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Fixed Design with 85% Power, One-sided 2.5% Type I error&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="at">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div id="hgpxovoknh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hgpxovoknh table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#hgpxovoknh thead, #hgpxovoknh tbody, #hgpxovoknh tfoot, #hgpxovoknh tr, #hgpxovoknh td, #hgpxovoknh th {
+border-style: none;
+}
+#hgpxovoknh p {
+margin: 0;
+padding: 0;
+}
+#hgpxovoknh .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#hgpxovoknh .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#hgpxovoknh .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#hgpxovoknh .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#hgpxovoknh .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#hgpxovoknh .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#hgpxovoknh .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#hgpxovoknh .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#hgpxovoknh .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#hgpxovoknh .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#hgpxovoknh .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#hgpxovoknh .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#hgpxovoknh .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#hgpxovoknh .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#hgpxovoknh .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#hgpxovoknh .gt_from_md > :first-child {
+margin-top: 0;
+}
+#hgpxovoknh .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#hgpxovoknh .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#hgpxovoknh .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#hgpxovoknh .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#hgpxovoknh .gt_row_group_first td {
+border-top-width: 2px;
+}
+#hgpxovoknh .gt_row_group_first th {
+border-top-width: 2px;
+}
+#hgpxovoknh .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#hgpxovoknh .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#hgpxovoknh .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#hgpxovoknh .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#hgpxovoknh .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#hgpxovoknh .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#hgpxovoknh .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#hgpxovoknh .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#hgpxovoknh .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#hgpxovoknh .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#hgpxovoknh .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#hgpxovoknh .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#hgpxovoknh .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#hgpxovoknh .gt_left {
+text-align: left;
+}
+#hgpxovoknh .gt_center {
+text-align: center;
+}
+#hgpxovoknh .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#hgpxovoknh .gt_font_normal {
+font-weight: normal;
+}
+#hgpxovoknh .gt_font_bold {
+font-weight: bold;
+}
+#hgpxovoknh .gt_font_italic {
+font-style: italic;
+}
+#hgpxovoknh .gt_super {
+font-size: 65%;
+}
+#hgpxovoknh .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#hgpxovoknh .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#hgpxovoknh .gt_indent_1 {
+text-indent: 5px;
+}
+#hgpxovoknh .gt_indent_2 {
+text-indent: 10px;
+}
+#hgpxovoknh .gt_indent_3 {
+text-indent: 15px;
+}
+#hgpxovoknh .gt_indent_4 {
+text-indent: 20px;
+}
+#hgpxovoknh .gt_indent_5 {
+text-indent: 25px;
+}
+#hgpxovoknh .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#hgpxovoknh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_title gt_font_normal" style>Sample Size and Targeted Events Based on AHR Method</td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Fixed Design with 85% Power, One-sided 2.5% Type I error</td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Design">Design</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="N">N</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Events">Events</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Time">Time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Bound">Bound</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="alpha">alpha</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Power">Power</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Design" class="gt_row gt_left">Average hazard ratio</td>
+<td headers="N" class="gt_row gt_right">516</td>
+<td headers="Events" class="gt_row gt_right">295</td>
+<td headers="Time" class="gt_row gt_right">36.01</td>
+<td headers="Bound" class="gt_row gt_right">1.96</td>
+<td headers="alpha" class="gt_row gt_right">0.025</td>
+<td headers="Power" class="gt_row gt_right">0.85</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<p>Now we set the derived targeted sample size, enrollment rate, and
+event count from the above.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> x<span class="sc">$</span>analysis<span class="sc">$</span>n</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>target_event <span class="ot">&lt;-</span> x<span class="sc">$</span>analysis<span class="sc">$</span>event</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>enroll_rate <span class="ot">&lt;-</span> x<span class="sc">$</span>enroll_rate</span></code></pre></div>
+</div>
+<div id="step-2-run-sim_fixed_n" class="section level1">
+<h1>Step 2: Run <code>sim_fixed_n()</code></h1>
+<p>Now that we have set up the design characteristics in Step 1, we can
+proceed to run <code>sim_fix_n()</code> for our simulations. This
+function automatically utilizes a parallel computing backend, which
+helps reduce the running time.</p>
+<p>The <code>timing_type</code> specifies one or more of the following
+cutoffs for setting the time for analysis:</p>
+<ul>
+<li><code>timing_type = 1</code>: The planned study duration.</li>
+<li><code>timing_type = 2</code>: The time until target event count has
+been observed.</li>
+<li><code>timing_type = 3</code>: The planned minimum follow-up period
+after enrollment completion.</li>
+<li><code>timing_type = 4</code>: The maximum of planned study duration
+and time to observe the targeted event count (i.e., using
+<code>timing_type = 1</code> and <code>timing_type = 2</code>
+together).</li>
+<li><code>timing_type = 5</code>: The maximum of time to observe the
+targeted event count and minimum follow-up following enrollment
+completion (i.e., using <code>timing_type = 2</code> and
+<code>timing_type = 3</code> together).</li>
+</ul>
+<p>The <code>rho_gamma</code> argument is a data frame containing the
+variables <code>rho</code> and <code>gamma</code>, both of which should
+be greater than or equal to zero, to specify one Fleming-Harrington
+weighted log-rank test per row. For instance, setting
+<code>rho = 0</code> and <code>gamma = 0</code> yields the standard
+unweighted log-rank test, while <code>rho = 0 and gamma = 0.5</code>
+provides the weighted Fleming-Harrington (0, 0.5) log-rank test. If you
+are interested in tests other than the Fleming-Harrington weighted
+log-rank test, please refer to the vignette at <a href="https://merck.github.io/simtrial/articles/sim_fixed_design_custom.html">“Articles”/“Simulate
+fixed/group sequential designs”/“Custom Fixed Design Simulations: A
+Tutorial on Writing Code from the Ground Up”</a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sim_res <span class="ot">&lt;-</span> <span class="fu">sim_fixed_n</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">n_sim =</span> <span class="dv">2</span>, <span class="co"># only use 2 simulations for initial run</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">sample_size =</span> sample_size, </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">block =</span> block, </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">stratum =</span> stratum,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">target_event =</span> target_event, </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">total_duration =</span> total_duration,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">enroll_rate =</span> enroll_rate, </span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">fail_rate =</span> fail_rate,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">timing_type =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="at">rho_gamma =</span> <span class="fu">data.frame</span>(<span class="at">rho =</span> <span class="dv">0</span>, <span class="at">gamma =</span> <span class="dv">0</span>))</span></code></pre></div>
+<p>The output of <code>sim_fixed_n</code> is a data frame with one row
+per simulated dataset per cutoff specified in <code>timing_type</code>,
+per test statistic specified in <code>rho_gamma</code>. Here we have
+just run 2 simulated trials and see how the different cutoffs vary for
+the 2 trial instances.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>sim_res <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="st">&quot;Tests for Each Simulation Result&quot;</span>, <span class="at">subtitle =</span> <span class="st">&quot;Logrank Test for Different Analysis Cutoffs&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="at">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div id="vtciravqij" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vtciravqij table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#vtciravqij thead, #vtciravqij tbody, #vtciravqij tfoot, #vtciravqij tr, #vtciravqij td, #vtciravqij th {
+border-style: none;
+}
+#vtciravqij p {
+margin: 0;
+padding: 0;
+}
+#vtciravqij .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#vtciravqij .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#vtciravqij .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#vtciravqij .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#vtciravqij .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#vtciravqij .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#vtciravqij .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#vtciravqij .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#vtciravqij .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#vtciravqij .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#vtciravqij .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#vtciravqij .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#vtciravqij .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#vtciravqij .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#vtciravqij .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#vtciravqij .gt_from_md > :first-child {
+margin-top: 0;
+}
+#vtciravqij .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#vtciravqij .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#vtciravqij .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#vtciravqij .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#vtciravqij .gt_row_group_first td {
+border-top-width: 2px;
+}
+#vtciravqij .gt_row_group_first th {
+border-top-width: 2px;
+}
+#vtciravqij .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#vtciravqij .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#vtciravqij .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#vtciravqij .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#vtciravqij .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#vtciravqij .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#vtciravqij .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#vtciravqij .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#vtciravqij .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#vtciravqij .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#vtciravqij .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#vtciravqij .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#vtciravqij .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#vtciravqij .gt_left {
+text-align: left;
+}
+#vtciravqij .gt_center {
+text-align: center;
+}
+#vtciravqij .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#vtciravqij .gt_font_normal {
+font-weight: normal;
+}
+#vtciravqij .gt_font_bold {
+font-weight: bold;
+}
+#vtciravqij .gt_font_italic {
+font-style: italic;
+}
+#vtciravqij .gt_super {
+font-size: 65%;
+}
+#vtciravqij .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#vtciravqij .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#vtciravqij .gt_indent_1 {
+text-indent: 5px;
+}
+#vtciravqij .gt_indent_2 {
+text-indent: 10px;
+}
+#vtciravqij .gt_indent_3 {
+text-indent: 15px;
+}
+#vtciravqij .gt_indent_4 {
+text-indent: 20px;
+}
+#vtciravqij .gt_indent_5 {
+text-indent: 25px;
+}
+#vtciravqij .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#vtciravqij div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="10" class="gt_heading gt_title gt_font_normal" style>Tests for Each Simulation Result</td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="10" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Logrank Test for Different Analysis Cutoffs</td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="method">method</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="parameter">parameter</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="estimate">estimate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="se">se</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="z">z</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="event">event</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ln_hr">ln_hr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="cut">cut</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="duration">duration</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="sim">sim</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-31.52010</td>
+<td headers="se" class="gt_row gt_right">8.38</td>
+<td headers="z" class="gt_row gt_right">3.76</td>
+<td headers="event" class="gt_row gt_right">287</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.45</td>
+<td headers="cut" class="gt_row gt_left">Planned duration</td>
+<td headers="duration" class="gt_row gt_right">36.00000</td>
+<td headers="sim" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-32.12426</td>
+<td headers="se" class="gt_row gt_right">8.49</td>
+<td headers="z" class="gt_row gt_right">3.78</td>
+<td headers="event" class="gt_row gt_right">295</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.45</td>
+<td headers="cut" class="gt_row gt_left">Targeted events</td>
+<td headers="duration" class="gt_row gt_right">36.66316</td>
+<td headers="sim" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-29.13247</td>
+<td headers="se" class="gt_row gt_right">8.25</td>
+<td headers="z" class="gt_row gt_right">3.53</td>
+<td headers="event" class="gt_row gt_right">278</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.43</td>
+<td headers="cut" class="gt_row gt_left">Minimum follow-up</td>
+<td headers="duration" class="gt_row gt_right">35.20859</td>
+<td headers="sim" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-32.12426</td>
+<td headers="se" class="gt_row gt_right">8.49</td>
+<td headers="z" class="gt_row gt_right">3.78</td>
+<td headers="event" class="gt_row gt_right">295</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.45</td>
+<td headers="cut" class="gt_row gt_left">Max(planned duration, event cut)</td>
+<td headers="duration" class="gt_row gt_right">36.66316</td>
+<td headers="sim" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-32.12426</td>
+<td headers="se" class="gt_row gt_right">8.49</td>
+<td headers="z" class="gt_row gt_right">3.78</td>
+<td headers="event" class="gt_row gt_right">295</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.45</td>
+<td headers="cut" class="gt_row gt_left">Max(min follow-up, event cut)</td>
+<td headers="duration" class="gt_row gt_right">36.66316</td>
+<td headers="sim" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-31.88270</td>
+<td headers="se" class="gt_row gt_right">8.00</td>
+<td headers="z" class="gt_row gt_right">3.99</td>
+<td headers="event" class="gt_row gt_right">268</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.50</td>
+<td headers="cut" class="gt_row gt_left">Planned duration</td>
+<td headers="duration" class="gt_row gt_right">36.00000</td>
+<td headers="sim" class="gt_row gt_right">2</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-38.09785</td>
+<td headers="se" class="gt_row gt_right">8.40</td>
+<td headers="z" class="gt_row gt_right">4.54</td>
+<td headers="event" class="gt_row gt_right">295</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.54</td>
+<td headers="cut" class="gt_row gt_left">Targeted events</td>
+<td headers="duration" class="gt_row gt_right">38.32488</td>
+<td headers="sim" class="gt_row gt_right">2</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-34.29092</td>
+<td headers="se" class="gt_row gt_right">8.23</td>
+<td headers="z" class="gt_row gt_right">4.17</td>
+<td headers="event" class="gt_row gt_right">283</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.51</td>
+<td headers="cut" class="gt_row gt_left">Minimum follow-up</td>
+<td headers="duration" class="gt_row gt_right">37.47843</td>
+<td headers="sim" class="gt_row gt_right">2</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-38.09785</td>
+<td headers="se" class="gt_row gt_right">8.40</td>
+<td headers="z" class="gt_row gt_right">4.54</td>
+<td headers="event" class="gt_row gt_right">295</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.54</td>
+<td headers="cut" class="gt_row gt_left">Max(planned duration, event cut)</td>
+<td headers="duration" class="gt_row gt_right">38.32488</td>
+<td headers="sim" class="gt_row gt_right">2</td></tr>
+    <tr><td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="estimate" class="gt_row gt_right">-38.09785</td>
+<td headers="se" class="gt_row gt_right">8.40</td>
+<td headers="z" class="gt_row gt_right">4.54</td>
+<td headers="event" class="gt_row gt_right">295</td>
+<td headers="ln_hr" class="gt_row gt_right">−0.54</td>
+<td headers="cut" class="gt_row gt_left">Max(min follow-up, event cut)</td>
+<td headers="duration" class="gt_row gt_right">38.32488</td>
+<td headers="sim" class="gt_row gt_right">2</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+<div id="step-3-summarize-simulations" class="section level1">
+<h1>Step 3: Summarize simulations</h1>
+<p>Now we run 100 simulated trials and summarize the results by how data
+is cutoff for analysis.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>sim_res <span class="ot">&lt;-</span> <span class="fu">sim_fixed_n</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">n_sim =</span> n_sim,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">sample_size =</span> sample_size, </span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">block =</span> block, <span class="at">stratum =</span> stratum,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="at">target_event =</span> target_event, </span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="at">total_duration =</span> total_duration,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="at">enroll_rate =</span> enroll_rate, </span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="at">fail_rate =</span> fail_rate,</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="at">timing_type =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="at">rho_gamma =</span> <span class="fu">data.frame</span>(<span class="at">rho =</span> <span class="dv">0</span>, <span class="at">gamma =</span> <span class="dv">0</span>))</span></code></pre></div>
+<p>With the 100 simulations provided, users can summarize the simulated
+power and compare it to the targeted 85% power. All cutoff methods
+approximate the targeted power well and have a similar average duration
+and mean number of events.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>sim_res <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">group_by</span>(cut) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="st">`</span><span class="at">Simulated Power</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(z <span class="sc">&gt;</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.025</span>)), </span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>            <span class="st">`</span><span class="at">Mean events</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(event),</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>            <span class="st">`</span><span class="at">Mean duration</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(duration)) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Sample size</span><span class="st">`</span> <span class="ot">=</span> sample_size,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>         <span class="st">`</span><span class="at">Targeted events</span><span class="st">`</span> <span class="ot">=</span> target_event) <span class="sc">|&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">&quot;Summary of 100 simulations by 5 different analysis cutoff methods&quot;</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Tested by logrank&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div id="gvsspbhvay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gvsspbhvay table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#gvsspbhvay thead, #gvsspbhvay tbody, #gvsspbhvay tfoot, #gvsspbhvay tr, #gvsspbhvay td, #gvsspbhvay th {
+border-style: none;
+}
+#gvsspbhvay p {
+margin: 0;
+padding: 0;
+}
+#gvsspbhvay .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#gvsspbhvay .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#gvsspbhvay .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#gvsspbhvay .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#gvsspbhvay .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#gvsspbhvay .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#gvsspbhvay .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#gvsspbhvay .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#gvsspbhvay .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#gvsspbhvay .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#gvsspbhvay .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#gvsspbhvay .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#gvsspbhvay .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#gvsspbhvay .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#gvsspbhvay .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#gvsspbhvay .gt_from_md > :first-child {
+margin-top: 0;
+}
+#gvsspbhvay .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#gvsspbhvay .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#gvsspbhvay .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gvsspbhvay .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#gvsspbhvay .gt_row_group_first td {
+border-top-width: 2px;
+}
+#gvsspbhvay .gt_row_group_first th {
+border-top-width: 2px;
+}
+#gvsspbhvay .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gvsspbhvay .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#gvsspbhvay .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#gvsspbhvay .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#gvsspbhvay .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gvsspbhvay .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#gvsspbhvay .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#gvsspbhvay .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#gvsspbhvay .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#gvsspbhvay .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#gvsspbhvay .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gvsspbhvay .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#gvsspbhvay .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#gvsspbhvay .gt_left {
+text-align: left;
+}
+#gvsspbhvay .gt_center {
+text-align: center;
+}
+#gvsspbhvay .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#gvsspbhvay .gt_font_normal {
+font-weight: normal;
+}
+#gvsspbhvay .gt_font_bold {
+font-weight: bold;
+}
+#gvsspbhvay .gt_font_italic {
+font-style: italic;
+}
+#gvsspbhvay .gt_super {
+font-size: 65%;
+}
+#gvsspbhvay .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#gvsspbhvay .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#gvsspbhvay .gt_indent_1 {
+text-indent: 5px;
+}
+#gvsspbhvay .gt_indent_2 {
+text-indent: 10px;
+}
+#gvsspbhvay .gt_indent_3 {
+text-indent: 15px;
+}
+#gvsspbhvay .gt_indent_4 {
+text-indent: 20px;
+}
+#gvsspbhvay .gt_indent_5 {
+text-indent: 25px;
+}
+#gvsspbhvay .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#gvsspbhvay div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="6" class="gt_heading gt_title gt_font_normal" style>Summary of 100 simulations by 5 different analysis cutoff methods</td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Tested by logrank</td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="cut">cut</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Simulated-Power">Simulated Power</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Mean-events">Mean events</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Mean-duration">Mean duration</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Sample-size">Sample size</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Targeted-events">Targeted events</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="cut" class="gt_row gt_left">Max(min follow-up, event cut)</td>
+<td headers="Simulated Power" class="gt_row gt_right">0.85</td>
+<td headers="Mean events" class="gt_row gt_right">299.35</td>
+<td headers="Mean duration" class="gt_row gt_right">36.39</td>
+<td headers="Sample size" class="gt_row gt_right">516</td>
+<td headers="Targeted events" class="gt_row gt_right">295</td></tr>
+    <tr><td headers="cut" class="gt_row gt_left">Max(planned duration, event cut)</td>
+<td headers="Simulated Power" class="gt_row gt_right">0.85</td>
+<td headers="Mean events" class="gt_row gt_right">301.54</td>
+<td headers="Mean duration" class="gt_row gt_right">36.59</td>
+<td headers="Sample size" class="gt_row gt_right">516</td>
+<td headers="Targeted events" class="gt_row gt_right">295</td></tr>
+    <tr><td headers="cut" class="gt_row gt_left">Minimum follow-up</td>
+<td headers="Simulated Power" class="gt_row gt_right">0.84</td>
+<td headers="Mean events" class="gt_row gt_right">291.57</td>
+<td headers="Mean duration" class="gt_row gt_right">35.78</td>
+<td headers="Sample size" class="gt_row gt_right">516</td>
+<td headers="Targeted events" class="gt_row gt_right">295</td></tr>
+    <tr><td headers="cut" class="gt_row gt_left">Planned duration</td>
+<td headers="Simulated Power" class="gt_row gt_right">0.84</td>
+<td headers="Mean events" class="gt_row gt_right">294.74</td>
+<td headers="Mean duration" class="gt_row gt_right">36.00</td>
+<td headers="Sample size" class="gt_row gt_right">516</td>
+<td headers="Targeted events" class="gt_row gt_right">295</td></tr>
+    <tr><td headers="cut" class="gt_row gt_left">Targeted events</td>
+<td headers="Simulated Power" class="gt_row gt_right">0.85</td>
+<td headers="Mean events" class="gt_row gt_right">295.00</td>
+<td headers="Mean duration" class="gt_row gt_right">36.00</td>
+<td headers="Sample size" class="gt_row gt_right">516</td>
+<td headers="Targeted events" class="gt_row gt_right">295</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<p>We can also do things like summarize distribution of event counts at
+the planned study duration. We can see the event count varies a fair
+amount.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">hist</span>(sim_res<span class="sc">$</span>event[sim_res<span class="sc">$</span>cut <span class="sc">==</span> <span class="st">&quot;Planned duration&quot;</span>], </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">10</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Distribution of Event Counts at Planned Study Duration&quot;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Event Count at Targeted Trial Duration&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>We also evaluate the distribution of the trial duration when analysis
+is performed when the targeted events are achieved.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(sim_res<span class="sc">$</span>duration[sim_res<span class="sc">$</span>cut <span class="sc">==</span> <span class="st">&quot;Targeted events&quot;</span>]), </span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Trial Duration Smoothed Density&quot;</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Trial duration when Targeted Event Count is Observed&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

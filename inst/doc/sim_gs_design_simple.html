@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Yujie Zhao and Keaven Anderson" />
+
+
+<title>Simulate Group Sequential Designs with Ease via sim_gs_n</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Simulate Group Sequential Designs with Ease
+via sim_gs_n</h1>
+<h4 class="author">Yujie Zhao and Keaven Anderson</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(gsDesign2)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(simtrial)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span></code></pre></div>
+<p>The <code>sim_gs_n()</code> function simulates group sequential
+designs with fixed sample size and multiple analyses. There are many
+advantages of calling <code>sim_gs_n()</code> directly.</p>
+<ul>
+<li>It is simple, which allows for a single function call to perform
+thousands of simulations.</li>
+<li>It allows for a variety of testing methods, such as logrank,
+weighted logrank test, RMST, and milestone test, via the
+<code>test = ...</code> argument.</li>
+<li>It automatically implements a parallel computation backend, allowing
+users to achieve shorter running times.</li>
+<li>It enables flexible data cutting methods for analyses, specifically:
+(1) planned calendar time, (2) targeted events, (3) maximum time
+extension to reach targeted events, (4) planned minimum time after the
+previous analysis, (5) minimal follow-up time after specified enrollment
+fraction; various combinations of these cut methods can also be
+specified.</li>
+</ul>
+<p>The process for simulating via <code>sim_gs_n()</code> is outlined in
+Steps 1 to 3 below.</p>
+<div id="step-1-define-design-paramaters" class="section level1">
+<h1>Step 1: Define design paramaters</h1>
+<p>To run simulations for a group sequential design, several design
+characteristics are required. The following code creates a design for an
+unstratified 2-arm trial with equal randomization. Enrollment is
+targeted to last for 12 months at a constant enrollment rate. The
+control arm is specified as exponential with a median of 10 months. The
+experimental arm distribution has a piecewise exponential distribution
+with a delay of 3 months with no benefit relative to control (HR = 1)
+followed by a hazard ratio of 0.6 thereafter. Additionally, there is an
+exponential dropout rate of 0.001 per month (or unit of time). The set
+up of these parameters is similar to the vignette <a href="https://merck.github.io/simtrial/articles/sim_fixed_design_simple.html">Simulate
+Fixed Designs with Ease via sim_fixed_n</a>. The total sample size is
+derived for 90% power.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>stratum <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="at">p =</span> <span class="dv">1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>block <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;experimental&quot;</span>, <span class="st">&quot;control&quot;</span>), <span class="dv">2</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># enrollment rate will be updated later, </span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># multiplied by a constant to get targeted power</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>enroll_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="at">rate =</span> <span class="dv">1</span>, <span class="at">duration =</span> <span class="dv">12</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>fail_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>                        <span class="at">duration =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="cn">Inf</span>), <span class="at">fail_rate =</span> <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">/</span> <span class="dv">10</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                        <span class="at">hr =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.6</span>), <span class="at">dropout_rate =</span> <span class="fl">0.001</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># Derive design using the average hazard ratio method</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">gs_design_ahr</span>(<span class="at">enroll_rate =</span> enroll_rate, <span class="at">fail_rate =</span> fail_rate,</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>                   <span class="at">analysis_time =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">36</span>), <span class="at">alpha =</span> <span class="fl">0.025</span>, <span class="at">beta =</span> <span class="fl">0.1</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>                   <span class="co"># spending function for upper bound</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>                   <span class="at">upper =</span> gs_spending_bound, </span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>                   <span class="at">upar =</span> <span class="fu">list</span>(<span class="at">sf =</span> gsDesign<span class="sc">::</span>sfLDOF, <span class="at">total_spend =</span> <span class="fl">0.025</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>                   <span class="co"># Fixed lower bound</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>                   <span class="at">lower =</span> gs_b,</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>                   <span class="at">lpar =</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">3</span>)) <span class="sc">|&gt;</span> <span class="fu">to_integer</span>()</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> x<span class="sc">$</span>analysis<span class="sc">$</span>n <span class="sc">|&gt;</span> <span class="fu">max</span>()</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>event <span class="ot">&lt;-</span> x<span class="sc">$</span>analysis<span class="sc">$</span>event</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>eff_bound <span class="ot">&lt;-</span> x<span class="sc">$</span>bound<span class="sc">$</span>z[x<span class="sc">$</span>bound<span class="sc">$</span>bound <span class="sc">==</span> <span class="st">&quot;upper&quot;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;The total sample size is &quot;</span>, sample_size, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&#39;&#39;</span>))</span></code></pre></div>
+<pre><code>## The total sample size is 362</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;The number of events at IA1, IA2 and FA are:&quot;</span>, event, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## The number of events at IA1, IA2 and FA are: 106 227 287</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;The efficacy bounds at IA1, IA2 and FA are:&quot;</span>, <span class="fu">round</span>(eff_bound, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## The efficacy bounds at IA1, IA2 and FA are: 3.508 2.269 2.023</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Targeted analysis times:&quot;</span>, <span class="fu">round</span>(x<span class="sc">$</span>analysis<span class="sc">$</span>time, <span class="dv">1</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Targeted analysis times: 12 24 35.9</code></pre>
+<p>Now we get the updated planned enrollment rate from the design to
+achieve the above targeted sample size.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>enroll_rate <span class="ot">&lt;-</span> x<span class="sc">$</span>enroll_rate</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>enroll_rate</span></code></pre></div>
+<pre><code>##   stratum     rate duration
+## 1     All 30.16667       12</code></pre>
+<p>There are additional parameters required for a group sequential
+design simulation as demonstrated below. One is the testing method. We
+focus on logrank here. Users can change these to other tests of
+interest; in comments below we demonstrate logrank and modestly weighted
+logrank test (<span class="citation">Magirr and Burman (2019)</span>)
+and Fleming-Harrington (<span class="citation">Harrington and Fleming
+(1982)</span>) tests; how to set up group sequential designs for these
+alternate tests is beyond the scope of this article. More testing
+methods are available at <a href="https://merck.github.io/simtrial/reference/index.html#compute-p-values-test-statistics">reference
+page of <code>simtrial</code></a>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Example for logrank</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">fh</span>(<span class="at">rho =</span> <span class="dv">0</span>, <span class="at">gamma =</span> <span class="dv">0</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>test <span class="ot">&lt;-</span> wlr</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co"># Example for Modestly Weighted Logrank Test (Magirr-Burman)</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co"># weight &lt;- mb(delay = Inf, w_max = 2)</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co"># Example for Fleming-Harrington(0, 0.5)</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co"># weight &lt;- fh(rho = 0, gamma = 0.5)</span></span></code></pre></div>
+<p>The final step is to specify how when data is cut off for each
+analysis in the group sequential design. The <code>create_cut()</code>
+function includes 5 options for the analysis cutoff:</p>
+<ol style="list-style-type: decimal">
+<li>planned calendar time,</li>
+<li>targeted events,</li>
+<li>maximum time extension to reach targeted events,</li>
+<li>planned minimum time after the previous analysis, and</li>
+<li>minimal follow-up time after specified enrollment fraction.</li>
+</ol>
+<p>More details and examples are available at the <a href="https://merck.github.io/simtrial/reference/get_analysis_date.html">help
+page</a>.</p>
+<p>A straightforward method for cutting analyses is based on events. For
+instance, the following code specifies 2 interim analyses and 1 final
+analysis cut when 106, 227, 287 events occur. <strong>In this
+event-driven approach, there is no need to update the efficacy
+boundary.</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>ia1_cut <span class="ot">&lt;-</span> <span class="fu">create_cut</span>(<span class="at">target_event_overall =</span> event[<span class="dv">1</span>])</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>ia2_cut <span class="ot">&lt;-</span> <span class="fu">create_cut</span>(<span class="at">target_event_overall =</span> event[<span class="dv">2</span>])</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>fa_cut <span class="ot">&lt;-</span> <span class="fu">create_cut</span>(<span class="at">target_event_overall =</span> event[<span class="dv">3</span>])</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>cut <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ia1 =</span> ia1_cut, <span class="at">ia2 =</span> ia2_cut, <span class="at">fa =</span> fa_cut)</span></code></pre></div>
+<p>Users can set more complex cutting. For example,</p>
+<ul>
+<li>The first interim analysis occurs at the targeted IA 1 analyusis
+time or when at least the IA 1 targeted events are observed, which is
+later. However, if the target number of events is not reached, we will
+wait a maximum of 16 months from start of enrollment.</li>
+<li>The second interim analysis is targeted to take place at the
+targeted time or targeted events for IA 2, whichever is later.
+Additionally, this interim analysis will be scheduled at least 10 months
+after the first interim analysis, but no later than 28 months from start
+of enrollment.</li>
+<li>The final analysis is set for the targeted final analysis time or
+targeted events at the final analysis, whichever is later. It must be at
+least 6 months after IA 2.</li>
+</ul>
+<p><strong>Please keep in mind that if the cut is not event-driven,
+boundary updates are necessary; this is not covered here.</strong> You
+can find more information about <a href="https://merck.github.io/simtrial/articles/sim_fixed_design_simple.html">the
+boundary updates in the boundary update vignette</a>. In this vignette,
+we use the event-driven cut from above for illustrative purposes.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>ia1_cut <span class="ot">&lt;-</span> <span class="fu">create_cut</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="at">planned_calendar_time =</span> <span class="fu">round</span>(x<span class="sc">$</span>analysis<span class="sc">$</span>time[<span class="dv">1</span>]), </span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="at">target_event_overall =</span> x<span class="sc">$</span>analysis<span class="sc">$</span>event[<span class="dv">1</span>],</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="at">max_extension_for_target_event =</span> <span class="dv">16</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>ia2_cut <span class="ot">&lt;-</span> <span class="fu">create_cut</span>(</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  <span class="at">planned_calendar_time =</span> <span class="fu">round</span>(x<span class="sc">$</span>analysis<span class="sc">$</span>time[<span class="dv">2</span>]),</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  <span class="at">target_event_overall =</span> x<span class="sc">$</span>analysis<span class="sc">$</span>event[<span class="dv">2</span>],</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  <span class="at">min_time_after_previous_analysis =</span> <span class="dv">10</span>, </span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  <span class="at">max_extension_for_target_event =</span> <span class="dv">28</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>fa_cut <span class="ot">&lt;-</span> <span class="fu">create_cut</span>(</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>  <span class="at">planned_calendar_time =</span> <span class="fu">round</span>(x<span class="sc">$</span>analysis<span class="sc">$</span>time[<span class="dv">3</span>]),</span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>  <span class="at">min_time_after_previous_analysis =</span> <span class="dv">6</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>  <span class="at">target_event_overall =</span> x<span class="sc">$</span>analysis<span class="sc">$</span>event[<span class="dv">3</span>])</span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>cut <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ia1 =</span> ia1_cut, <span class="at">ia2 =</span> ia2_cut, <span class="at">fa =</span> fa_cut)</span></code></pre></div>
+</div>
+<div id="step-2-run-sim_gs_n" class="section level1">
+<h1>Step 2: Run <code>sim_gs_n()</code></h1>
+<p>Now that we have set up the design characteristics in Step 1, we can
+proceed to run <code>sim_gs_n()</code> for a specified number of
+simulations. This function automatically utilizes a parallel computing
+backend, which helps reduce the running time.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>n_sim <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># Number of simulated trials</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>sim_res <span class="ot">&lt;-</span> <span class="fu">sim_gs_n</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="at">n_sim =</span> n_sim,</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="at">sample_size =</span> sample_size, <span class="at">stratum =</span> stratum, <span class="at">block =</span> block,</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="at">enroll_rate =</span> enroll_rate, <span class="at">fail_rate =</span> fail_rate,</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  <span class="at">test =</span> test, <span class="at">weight =</span> weight, <span class="at">cut =</span> cut)</span></code></pre></div>
+<p>The output of <code>sim_gs_n</code> is a data frame with one row per
+simulation per analysis. We show results for the first 2 simulated
+trials here. The estimate column is the <em>sum(0 - E)</em> for the
+logrank test; the se column is its standard error estimated under the
+null hypothesis. The <code>z</code> column is the test statistic for the
+logrank test (estimate / se). The <code>info</code> and
+<code>info0</code> columns are the information at the current analysis
+under the alternate and null hypotheses, respectively.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>sim_res <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">6</span>) <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span> <span class="fu">tab_header</span>(<span class="st">&quot;Overview Each Simulation results&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span><span class="sc">:</span><span class="dv">12</span>), <span class="at">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div id="dzawjmqldw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dzawjmqldw table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#dzawjmqldw thead, #dzawjmqldw tbody, #dzawjmqldw tfoot, #dzawjmqldw tr, #dzawjmqldw td, #dzawjmqldw th {
+border-style: none;
+}
+#dzawjmqldw p {
+margin: 0;
+padding: 0;
+}
+#dzawjmqldw .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#dzawjmqldw .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#dzawjmqldw .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#dzawjmqldw .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#dzawjmqldw .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#dzawjmqldw .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#dzawjmqldw .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#dzawjmqldw .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#dzawjmqldw .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#dzawjmqldw .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#dzawjmqldw .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#dzawjmqldw .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#dzawjmqldw .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#dzawjmqldw .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#dzawjmqldw .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#dzawjmqldw .gt_from_md > :first-child {
+margin-top: 0;
+}
+#dzawjmqldw .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#dzawjmqldw .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#dzawjmqldw .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#dzawjmqldw .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#dzawjmqldw .gt_row_group_first td {
+border-top-width: 2px;
+}
+#dzawjmqldw .gt_row_group_first th {
+border-top-width: 2px;
+}
+#dzawjmqldw .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#dzawjmqldw .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#dzawjmqldw .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#dzawjmqldw .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#dzawjmqldw .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#dzawjmqldw .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#dzawjmqldw .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#dzawjmqldw .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#dzawjmqldw .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#dzawjmqldw .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#dzawjmqldw .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#dzawjmqldw .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#dzawjmqldw .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#dzawjmqldw .gt_left {
+text-align: left;
+}
+#dzawjmqldw .gt_center {
+text-align: center;
+}
+#dzawjmqldw .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#dzawjmqldw .gt_font_normal {
+font-weight: normal;
+}
+#dzawjmqldw .gt_font_bold {
+font-weight: bold;
+}
+#dzawjmqldw .gt_font_italic {
+font-style: italic;
+}
+#dzawjmqldw .gt_super {
+font-size: 65%;
+}
+#dzawjmqldw .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#dzawjmqldw .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#dzawjmqldw .gt_indent_1 {
+text-indent: 5px;
+}
+#dzawjmqldw .gt_indent_2 {
+text-indent: 10px;
+}
+#dzawjmqldw .gt_indent_3 {
+text-indent: 15px;
+}
+#dzawjmqldw .gt_indent_4 {
+text-indent: 20px;
+}
+#dzawjmqldw .gt_indent_5 {
+text-indent: 25px;
+}
+#dzawjmqldw .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#dzawjmqldw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="12" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Overview Each Simulation results</td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="sim_id">sim_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="method">method</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="parameter">parameter</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="analysis">analysis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="cut_date">cut_date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="event">event</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="estimate">estimate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="se">se</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="z">z</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="info">info</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="info0">info0</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="sim_id" class="gt_row gt_right">1</td>
+<td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="cut_date" class="gt_row gt_right">12.53</td>
+<td headers="n" class="gt_row gt_right">362</td>
+<td headers="event" class="gt_row gt_right">106</td>
+<td headers="estimate" class="gt_row gt_right">−4.00</td>
+<td headers="se" class="gt_row gt_right">5.13</td>
+<td headers="z" class="gt_row gt_right">0.78</td>
+<td headers="info" class="gt_row gt_right">26.46</td>
+<td headers="info0" class="gt_row gt_right">26.50</td></tr>
+    <tr><td headers="sim_id" class="gt_row gt_right">1</td>
+<td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="analysis" class="gt_row gt_right">2</td>
+<td headers="cut_date" class="gt_row gt_right">24.68</td>
+<td headers="n" class="gt_row gt_right">362</td>
+<td headers="event" class="gt_row gt_right">227</td>
+<td headers="estimate" class="gt_row gt_right">−23.11</td>
+<td headers="se" class="gt_row gt_right">7.46</td>
+<td headers="z" class="gt_row gt_right">3.10</td>
+<td headers="info" class="gt_row gt_right">55.82</td>
+<td headers="info0" class="gt_row gt_right">56.75</td></tr>
+    <tr><td headers="sim_id" class="gt_row gt_right">1</td>
+<td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="analysis" class="gt_row gt_right">3</td>
+<td headers="cut_date" class="gt_row gt_right">35.99</td>
+<td headers="n" class="gt_row gt_right">362</td>
+<td headers="event" class="gt_row gt_right">287</td>
+<td headers="estimate" class="gt_row gt_right">−36.82</td>
+<td headers="se" class="gt_row gt_right">8.27</td>
+<td headers="z" class="gt_row gt_right">4.45</td>
+<td headers="info" class="gt_row gt_right">70.68</td>
+<td headers="info0" class="gt_row gt_right">71.75</td></tr>
+    <tr><td headers="sim_id" class="gt_row gt_right">2</td>
+<td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="cut_date" class="gt_row gt_right">12.19</td>
+<td headers="n" class="gt_row gt_right">348</td>
+<td headers="event" class="gt_row gt_right">106</td>
+<td headers="estimate" class="gt_row gt_right">−5.20</td>
+<td headers="se" class="gt_row gt_right">5.15</td>
+<td headers="z" class="gt_row gt_right">1.01</td>
+<td headers="info" class="gt_row gt_right">26.26</td>
+<td headers="info0" class="gt_row gt_right">26.50</td></tr>
+    <tr><td headers="sim_id" class="gt_row gt_right">2</td>
+<td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="analysis" class="gt_row gt_right">2</td>
+<td headers="cut_date" class="gt_row gt_right">24.66</td>
+<td headers="n" class="gt_row gt_right">362</td>
+<td headers="event" class="gt_row gt_right">227</td>
+<td headers="estimate" class="gt_row gt_right">−8.33</td>
+<td headers="se" class="gt_row gt_right">7.53</td>
+<td headers="z" class="gt_row gt_right">1.11</td>
+<td headers="info" class="gt_row gt_right">56.50</td>
+<td headers="info0" class="gt_row gt_right">56.75</td></tr>
+    <tr><td headers="sim_id" class="gt_row gt_right">2</td>
+<td headers="method" class="gt_row gt_left">WLR</td>
+<td headers="parameter" class="gt_row gt_left">FH(rho=0, gamma=0)</td>
+<td headers="analysis" class="gt_row gt_right">3</td>
+<td headers="cut_date" class="gt_row gt_right">37.57</td>
+<td headers="n" class="gt_row gt_right">362</td>
+<td headers="event" class="gt_row gt_right">287</td>
+<td headers="estimate" class="gt_row gt_right">−18.96</td>
+<td headers="se" class="gt_row gt_right">8.44</td>
+<td headers="z" class="gt_row gt_right">2.24</td>
+<td headers="info" class="gt_row gt_right">71.11</td>
+<td headers="info0" class="gt_row gt_right">71.75</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+<div id="step-3-summarize-simulations" class="section level1">
+<h1>Step 3: Summarize simulations</h1>
+<p>With the 100 simulations provided, users can summarize the simulated
+power and compare it to the target power of 90% as follows:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>sim_res <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">data.frame</span>(<span class="at">analysis =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">eff_bound =</span> eff_bound)) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">group_by</span>(analysis) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="st">`</span><span class="at">Mean time</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(cut_date), <span class="st">`</span><span class="at">sd(time)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sd</span>(cut_date), <span class="st">`</span><span class="at">Simulated power</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(z <span class="sc">&gt;=</span> eff_bound)) <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Asymptotic power</span><span class="st">`</span> <span class="ot">=</span> x<span class="sc">$</span>bound<span class="sc">$</span>probability[x<span class="sc">$</span>bound<span class="sc">$</span>bound <span class="sc">==</span> <span class="st">&quot;upper&quot;</span>]) <span class="sc">|&gt;</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="st">&quot;Summary of 100 simulations&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">2</span>, <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div id="uwkneayvxc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#uwkneayvxc table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#uwkneayvxc thead, #uwkneayvxc tbody, #uwkneayvxc tfoot, #uwkneayvxc tr, #uwkneayvxc td, #uwkneayvxc th {
+border-style: none;
+}
+#uwkneayvxc p {
+margin: 0;
+padding: 0;
+}
+#uwkneayvxc .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#uwkneayvxc .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#uwkneayvxc .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#uwkneayvxc .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#uwkneayvxc .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#uwkneayvxc .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#uwkneayvxc .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#uwkneayvxc .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#uwkneayvxc .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#uwkneayvxc .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#uwkneayvxc .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#uwkneayvxc .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#uwkneayvxc .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#uwkneayvxc .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#uwkneayvxc .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#uwkneayvxc .gt_from_md > :first-child {
+margin-top: 0;
+}
+#uwkneayvxc .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#uwkneayvxc .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#uwkneayvxc .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uwkneayvxc .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#uwkneayvxc .gt_row_group_first td {
+border-top-width: 2px;
+}
+#uwkneayvxc .gt_row_group_first th {
+border-top-width: 2px;
+}
+#uwkneayvxc .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uwkneayvxc .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#uwkneayvxc .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#uwkneayvxc .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#uwkneayvxc .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uwkneayvxc .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#uwkneayvxc .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#uwkneayvxc .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#uwkneayvxc .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#uwkneayvxc .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#uwkneayvxc .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uwkneayvxc .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#uwkneayvxc .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uwkneayvxc .gt_left {
+text-align: left;
+}
+#uwkneayvxc .gt_center {
+text-align: center;
+}
+#uwkneayvxc .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#uwkneayvxc .gt_font_normal {
+font-weight: normal;
+}
+#uwkneayvxc .gt_font_bold {
+font-weight: bold;
+}
+#uwkneayvxc .gt_font_italic {
+font-style: italic;
+}
+#uwkneayvxc .gt_super {
+font-size: 65%;
+}
+#uwkneayvxc .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#uwkneayvxc .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#uwkneayvxc .gt_indent_1 {
+text-indent: 5px;
+}
+#uwkneayvxc .gt_indent_2 {
+text-indent: 10px;
+}
+#uwkneayvxc .gt_indent_3 {
+text-indent: 15px;
+}
+#uwkneayvxc .gt_indent_4 {
+text-indent: 20px;
+}
+#uwkneayvxc .gt_indent_5 {
+text-indent: 25px;
+}
+#uwkneayvxc .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#uwkneayvxc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Summary of 100 simulations</td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="analysis">analysis</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Mean-time">Mean time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="sd(time)">sd(time)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Simulated-power">Simulated power</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Asymptotic-power">Asymptotic power</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="analysis" class="gt_row gt_right">1</td>
+<td headers="Mean time" class="gt_row gt_right">12.0</td>
+<td headers="sd(time)" class="gt_row gt_right">0.79</td>
+<td headers="Simulated power" class="gt_row gt_right">0.03</td>
+<td headers="Asymptotic power" class="gt_row gt_right">0.01</td></tr>
+    <tr><td headers="analysis" class="gt_row gt_right">2</td>
+<td headers="Mean time" class="gt_row gt_right">23.8</td>
+<td headers="sd(time)" class="gt_row gt_right">1.53</td>
+<td headers="Simulated power" class="gt_row gt_right">0.66</td>
+<td headers="Asymptotic power" class="gt_row gt_right">0.66</td></tr>
+    <tr><td headers="analysis" class="gt_row gt_right">3</td>
+<td headers="Mean time" class="gt_row gt_right">35.7</td>
+<td headers="sd(time)" class="gt_row gt_right">2.04</td>
+<td headers="Simulated power" class="gt_row gt_right">0.87</td>
+<td headers="Asymptotic power" class="gt_row gt_right">0.90</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-FH1982" class="csl-entry">
+Harrington, David P, and Thomas R Fleming. 1982. <span>“A Class of Rank
+Test Procedures for Censored Survival Data.”</span> <em>Biometrika</em>
+69 (3): 553–66.
+</div>
+<div id="ref-MagirrBurman" class="csl-entry">
+Magirr, Dominic, and Carl-Fredrik Burman. 2019. <span>“Modestly Weighted
+Logrank Tests.”</span> <em>Statistics in Medicine</em> 38 (20): 3782–90.
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

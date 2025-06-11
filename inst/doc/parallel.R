@@ -39,6 +39,7 @@ legend(
 )
 
 ## ----confirm-sequential-------------------------------------------------------
+data.table::setDTthreads(threads = 1)
 set.seed(1)
 
 n_sim <- 200
@@ -66,13 +67,27 @@ duration_sequential <- proc.time() - start_sequential
 ## ----sequential-time----------------------------------------------------------
 print(duration_sequential)
 
-## ----sequential-display-results, eval=FALSE, echo=FALSE-----------------------
-#  seq_result1 |>
-#    head(5) |>
-#    kable(digits = 2)
-#  seq_result2 |>
-#    head(5) |>
-#    kable(digits = 2)
+## ----sequential-display-duration, echo=FALSE, fig.height=4, fig.width=6, fig.align="center"----
+duration_min <- min(seq_result1$duration, seq_result2$duration)
+duration_max <- max(seq_result1$duration, seq_result2$duration)
+hist(
+  x = seq_result1$duration,
+  col = palette()[4],
+  main = "Duration by enrollment strategy",
+  xlab = "Duration",
+  xlim = c(duration_min, duration_max),
+  ylab = "Number of simulations",
+  ylim = c(0, n_sim / 3)
+)
+hist(seq_result2$duration, col = palette()[7], add = TRUE)
+abline(v = mean(seq_result1$duration), lwd = 2, lty = "dashed")
+abline(v = mean(seq_result2$duration), lwd = 2, lty = "dashed")
+legend(
+  "top",
+  legend = c("Enrollment 1", "Enrollment 2"),
+  col = c(palette()[4], palette()[7]),
+  lty = c(1, 1)
+)
 
 ## ----multisession1------------------------------------------------------------
 plan(multisession, workers = 2)
@@ -80,9 +95,9 @@ plan(multisession, workers = 2)
 ## ----confirm-multisession-----------------------------------------------------
 set.seed(1)
 
-start_sequential <- proc.time()
+start_parallel <- proc.time()
 
-seq_result1m <- sim_fixed_n(
+par_result1 <- sim_fixed_n(
   n_sim = n_sim,
   sample_size = 3000,
   target_event = 700,
@@ -90,7 +105,7 @@ seq_result1m <- sim_fixed_n(
   timing_type = 2 # Time until targeted event count achieved
 )
 
-seq_result2m <- sim_fixed_n(
+par_result2 <- sim_fixed_n(
   n_sim = n_sim,
   sample_size = 3000,
   target_event = 700,
@@ -98,17 +113,17 @@ seq_result2m <- sim_fixed_n(
   timing_type = 2 # Time until targeted event count achieved
 )
 
-duration_sequential <- proc.time() - start_sequential
+duration_parallel <- proc.time() - start_parallel
 
 ## ----time-parallel------------------------------------------------------------
-print(duration_sequential)
+print(duration_parallel)
 
 ## ----plan-sequential----------------------------------------------------------
 plan(sequential)
 
-## ----compare-results, eval=FALSE----------------------------------------------
-#  sum(seq_result1 != seq_result1m)
-#  sum(seq_result2 != seq_result2m)
+## ----compare-results----------------------------------------------------------
+all.equal(seq_result1, par_result1)
+all.equal(seq_result2, par_result2)
 
 ## ----schema, echo=FALSE, fig.cap="Available resource schematic.", fig.align="center", out.width="90%"----
 knitr::include_graphics("./figures/schema.png")
@@ -133,7 +148,7 @@ knitr::include_graphics("./figures/schema.png")
 #  
 #  enroll_rates <- list(enroll_rate1, enroll_rate2)
 #  
-#  seq_resultc <- foreach::foreach(
+#  nested_result <- foreach::foreach(
 #    i = 1:2,
 #    .combine = "list",
 #    .options.future = list(seed = TRUE)
