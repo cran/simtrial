@@ -129,39 +129,39 @@ all.equal(seq_result2, par_result2)
 knitr::include_graphics("./figures/schema.png")
 
 ## ----nested-topology, eval=FALSE----------------------------------------------
-#  nodes <- c("n1", "n2")
-#  custom_cores <- function() {
-#    switch(Sys.info()[["nodename"]],
-#      "n1" = 3L, # Modify here for number of cores on node1
-#      "n2" = 3L, # Modify here for number of cores on node2
-#      ## Default:
-#      availableCores()
-#    )
-#  }
-#  plan(list(
-#    tweak(cluster, workers = nodes),
-#    tweak(multisession, workers = custom_cores)
-#  ))
+# nodes <- c("n1", "n2")
+# custom_cores <- function() {
+#   switch(Sys.info()[["nodename"]],
+#     "n1" = 3L, # Modify here for number of cores on node1
+#     "n2" = 3L, # Modify here for number of cores on node2
+#     ## Default:
+#     availableCores()
+#   )
+# }
+# plan(list(
+#   tweak(cluster, workers = nodes),
+#   tweak(multisession, workers = custom_cores)
+# ))
 
 ## ----confirm-cluster, eval=FALSE----------------------------------------------
-#  set.seed(1)
-#  
-#  enroll_rates <- list(enroll_rate1, enroll_rate2)
-#  
-#  nested_result <- foreach::foreach(
-#    i = 1:2,
-#    .combine = "list",
-#    .options.future = list(seed = TRUE)
-#  ) %dofuture% {
-#    sim_fixed_n(
-#      n_sim = n_sim,
-#      sample_size = 3000,
-#      target_event = 700,
-#      enroll_rate = enroll_rates[[i]],
-#      timing_type = 2 # Time until targeted event count achieved
-#    )
-#  }
+# set.seed(1)
+# 
+# enroll_rates <- list(enroll_rate1, enroll_rate2)
+# 
+# nested_result <- foreach::foreach(
+#   i = 1:2,
+#   .combine = "list",
+#   .options.future = list(seed = TRUE)
+# ) %dofuture% {
+#   sim_fixed_n(
+#     n_sim = n_sim,
+#     sample_size = 3000,
+#     target_event = 700,
+#     enroll_rate = enroll_rates[[i]],
+#     timing_type = 2 # Time until targeted event count achieved
+#   )
+# }
 
 ## ----plan-sequential2, eval=FALSE---------------------------------------------
-#  plan(sequential)
+# plan(sequential)
 

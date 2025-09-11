@@ -56,23 +56,23 @@ fa_cut <- create_cut(target_event_overall = event[3])
 cut <- list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  ia1_cut <- create_cut(
-#    planned_calendar_time = round(x$analysis$time[1]),
-#    target_event_overall = x$analysis$event[1],
-#    max_extension_for_target_event = 16)
-#  
-#  ia2_cut <- create_cut(
-#    planned_calendar_time = round(x$analysis$time[2]),
-#    target_event_overall = x$analysis$event[2],
-#    min_time_after_previous_analysis = 10,
-#    max_extension_for_target_event = 28)
-#  
-#  fa_cut <- create_cut(
-#    planned_calendar_time = round(x$analysis$time[3]),
-#    min_time_after_previous_analysis = 6,
-#    target_event_overall = x$analysis$event[3])
-#  
-#  cut <- list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut)
+# ia1_cut <- create_cut(
+#   planned_calendar_time = round(x$analysis$time[1]),
+#   target_event_overall = x$analysis$event[1],
+#   max_extension_for_target_event = 16)
+# 
+# ia2_cut <- create_cut(
+#   planned_calendar_time = round(x$analysis$time[2]),
+#   target_event_overall = x$analysis$event[2],
+#   min_time_after_previous_analysis = 10,
+#   max_extension_for_target_event = 28)
+# 
+# fa_cut <- create_cut(
+#   planned_calendar_time = round(x$analysis$time[3]),
+#   min_time_after_previous_analysis = 6,
+#   target_event_overall = x$analysis$event[3])
+# 
+# cut <- list(ia1 = ia1_cut, ia2 = ia2_cut, fa = fa_cut)
 
 ## ----message=FALSE------------------------------------------------------------
 n_sim <- 100 # Number of simulated trials

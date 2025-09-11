@@ -18,7 +18,7 @@ library(dplyr)
 library(survival)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  remotes::install_github("cran/bshazard")
+# remotes::install_github("cran/bshazard")
 
 ## -----------------------------------------------------------------------------
 set.seed(123)
@@ -99,7 +99,7 @@ plot.bshazard <- function(
 }
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  fit <- bshazard::bshazard(Surv(tte, event) ~ 1, data = y, nk = 120)
+# fit <- bshazard::bshazard(Surv(tte, event) ~ 1, data = y, nk = 120)
 
 ## -----------------------------------------------------------------------------
 plot(fit, conf.int = TRUE, xlab = "Time", xlim = c(0, 3), ylim = c(0, 2.5), lwd = 2)

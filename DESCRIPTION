@@ -1,7 +1,7 @@
 Package: simtrial
 Type: Package
 Title: Clinical Trial Simulation
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Keaven", "Anderson", email = "keaven_anderson@merck.com", role = c("aut")),
     person("Yujie", "Zhao", email = "yujie.zhao@merck.com", role =  c("aut","cre")),
@@ -19,7 +19,8 @@ Authors@R: c(
     person("Amin", "Shirazi", role = c("ctb")),
     person("Cole", "Manschot", role = c("ctb")),
     person("Larry", "Leon", role = c("ctb")),
-    person("Merck & Co., Inc., Rahway, NJ, USA and its affiliates", role = "cph")
+    person("Merck & Co., Inc., Rahway, NJ, USA and its affiliates", role = "cph",
+           comment = c(ROR = "02891sr49"))
     )
 Description: Provides some basic routines for simulating a
     clinical trial. The primary intent is to provide some tools to
@@ -47,7 +48,7 @@ LinkingTo: Rcpp
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2025-06-11 18:23:21 UTC; zhayuji4
+Packaged: 2025-09-11 15:06:12 UTC; wsl
 Author: Keaven Anderson [aut],
   Yujie Zhao [aut, cre],
   John Blischak [aut],
@@ -64,7 +65,8 @@ Author: Keaven Anderson [aut],
   Amin Shirazi [ctb],
   Cole Manschot [ctb],
   Larry Leon [ctb],
-  Merck & Co., Inc., Rahway, NJ, USA and its affiliates [cph]
+  Merck & Co., Inc., Rahway, NJ, USA and its affiliates [cph] (ROR:
+    <https://ror.org/02891sr49>)
 Maintainer: Yujie Zhao <yujie.zhao@merck.com>
 Repository: CRAN
-Date/Publication: 2025-06-11 18:50:02 UTC
+Date/Publication: 2025-09-11 16:50:02 UTC
