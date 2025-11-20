@@ -28,46 +28,32 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 });
 </script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -79,55 +65,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -353,508 +338,481 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Simulate Fixed Designs with Ease via sim_fixed_n</h1>
+<h1 class="title toc-ignore">Simulate Fixed Designs with Ease via
+sim_fixed_n</h1>
 <h4 class="author">Yujie Zhao and Keaven Anderson</h4>
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">library</span>(gsDesign2)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">library</span>(simtrial)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">library</span>(gt)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">2027</span>)</span></code></pre></div>
-<p>The <code>sim_fixed_n()</code> function simulates a two-arm trial with a single endpoint, accounting for time-varying enrollment, hazard ratios, and failure and dropout rates.</p>
-<p>While there are limitations, there are advantages of calling <code>sim_fixed_n()</code> directly:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(gsDesign2)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(simtrial)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2027</span>)</span></code></pre></div>
+<p>The <code>sim_fixed_n()</code> function simulates a two-arm trial
+with a single endpoint, accounting for time-varying enrollment, hazard
+ratios, and failure and dropout rates.</p>
+<p>While there are limitations, there are advantages of calling
+<code>sim_fixed_n()</code> directly:</p>
 <ul>
-<li>It is simple, which allows for a single function call to perform an arbitrary number of simulations.</li>
-<li>It automatically implements a parallel computating backend to reduce running time.</li>
-<li>It offers up to 5 options for determining the data cutoff for analysis through the <code>timing_type</code> parameter.</li>
+<li>It is simple, which allows for a single function call to perform an
+arbitrary number of simulations.</li>
+<li>It automatically implements a parallel computating backend to reduce
+running time.</li>
+<li>It offers up to 5 options for determining the data cutoff for
+analysis through the <code>timing_type</code> parameter.</li>
 </ul>
-<p>If people are interested in more complicated simulations, please refer to the vignette <a href="https://merck.github.io/simtrial/articles/sim_fixed_design_custom.html">Custom Fixed Design Simulations: A Tutorial on Writing Code from the Ground Up</a>.</p>
-<p>The process for simulating via <code>sim_fixed_n()</code> is outlined in Steps 1 to 3 below.</p>
+<p>If people are interested in more complicated simulations, please
+refer to the vignette <a href="https://merck.github.io/simtrial/articles/sim_fixed_design_custom.html">Custom
+Fixed Design Simulations: A Tutorial on Writing Code from the Ground
+Up</a>.</p>
+<p>The process for simulating via <code>sim_fixed_n()</code> is outlined
+in Steps 1 to 3 below.</p>
 <div id="step-1-define-design-parameters" class="section level1">
 <h1>Step 1: Define design parameters</h1>
-<p>To run simulations for a fixed design, several design characteristics may be used. Depending on the data cutoff for analysis option, different inputs may be required. The following lines of code specify an unstratified 2-arm trial with equal randomization. The simulation is repeated 2 times. Enrollment is targeted to last for 12 months at a constant enrollment rate. The median for the control arm is 10 months, with a delayed effect during the first 3 months followed by a hazard ratio of 0.7 thereafter. There is an exponential dropout rate of 0.001 over time.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>n_sim &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>total_duration &lt;-<span class="st"> </span><span class="dv">36</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>stratum &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="dt">p =</span> <span class="dv">1</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>block &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;experimental&quot;</span>, <span class="st">&quot;control&quot;</span>), <span class="dv">2</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>enroll_rate &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="dt">rate =</span> <span class="dv">12</span>, <span class="dt">duration =</span> <span class="dv">500</span> <span class="op">/</span><span class="st"> </span><span class="dv">12</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>fail_rate &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">stratum =</span> <span class="st">&quot;All&quot;</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>                        <span class="dt">duration =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="ot">Inf</span>), <span class="dt">fail_rate =</span> <span class="kw">log</span>(<span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="dv">10</span>, </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>                        <span class="dt">hr =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.6</span>), <span class="dt">dropout_rate =</span> <span class="fl">0.001</span>)</span></code></pre></div>
-<p>We specify sample size and targeted event count based on the <code>fixed_design_ahr()</code> function and the above options. The following design computes the sample size and targeted event counts for 85% power. In this approach, users can obtain the sample size and targeted events from the output of <code>x</code>, specifically by using <code>sample_size &lt;- x$analysis$n</code> and <code>target_event &lt;- x$analysis$event</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">fixed_design_ahr</span>(<span class="dt">enroll_rate =</span> enroll_rate, <span class="dt">fail_rate =</span> fail_rate, </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>                      <span class="dt">alpha =</span> <span class="fl">0.025</span>, <span class="dt">power =</span> <span class="fl">0.85</span>, <span class="dt">ratio =</span> <span class="dv">1</span>, </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>                      <span class="dt">study_duration =</span> total_duration) <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">to_integer</span>()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>x <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">summary</span>() <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">gt</span>() <span class="op">|</span><span class="er">&gt;</span><span class="st"> </span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">tab_header</span>(<span class="dt">title =</span> <span class="st">&quot;Sample Size and Targeted Events Based on AHR Method&quot;</span>, </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>             <span class="dt">subtitle =</span> <span class="st">&quot;Fixed Design with 85% Power, One-sided 2.5% Type I error&quot;</span>) <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="st">  </span><span class="kw">fmt_number</span>(<span class="dt">columns =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dt">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>To run simulations for a fixed design, several design characteristics
+may be used. Depending on the data cutoff for analysis option, different
+inputs may be required. The following lines of code specify an
+unstratified 2-arm trial with equal randomization. The simulation is
+repeated 2 times. Enrollment is targeted to last for 12 months at a
+constant enrollment rate. The median for the control arm is 10 months,
+with a delayed effect during the first 3 months followed by a hazard
+ratio of 0.7 thereafter. There is an exponential dropout rate of 0.001
+over time.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>n_sim <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>total_duration <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>stratum <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="at">p =</span> <span class="dv">1</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>block <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;experimental&quot;</span>, <span class="st">&quot;control&quot;</span>), <span class="dv">2</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>enroll_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>, <span class="at">rate =</span> <span class="dv">12</span>, <span class="at">duration =</span> <span class="dv">500</span> <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>fail_rate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">stratum =</span> <span class="st">&quot;All&quot;</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                        <span class="at">duration =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="cn">Inf</span>), <span class="at">fail_rate =</span> <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">/</span> <span class="dv">10</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                        <span class="at">hr =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.6</span>), <span class="at">dropout_rate =</span> <span class="fl">0.001</span>)</span></code></pre></div>
+<p>We specify sample size and targeted event count based on the
+<code>fixed_design_ahr()</code> function and the above options. The
+following design computes the sample size and targeted event counts for
+85% power. In this approach, users can obtain the sample size and
+targeted events from the output of <code>x</code>, specifically by using
+<code>sample_size &lt;- x$analysis$n</code> and
+<code>target_event &lt;- x$analysis$event</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">fixed_design_ahr</span>(<span class="at">enroll_rate =</span> enroll_rate, <span class="at">fail_rate =</span> fail_rate, </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="fl">0.025</span>, <span class="at">power =</span> <span class="fl">0.85</span>, <span class="at">ratio =</span> <span class="dv">1</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                      <span class="at">study_duration =</span> total_duration) <span class="sc">|&gt;</span> <span class="fu">to_integer</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">summary</span>() <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">&quot;Sample Size and Targeted Events Based on AHR Method&quot;</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Fixed Design with 85% Power, One-sided 2.5% Type I error&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="at">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
 <div id="hgpxovoknh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#hgpxovoknh table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
 }
-
 #hgpxovoknh thead, #hgpxovoknh tbody, #hgpxovoknh tfoot, #hgpxovoknh tr, #hgpxovoknh td, #hgpxovoknh th {
-  border-style: none;
+border-style: none;
 }
-
 #hgpxovoknh p {
-  margin: 0;
-  padding: 0;
+margin: 0;
+padding: 0;
 }
-
 #hgpxovoknh .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
+padding-top: 4px;
+padding-bottom: 4px;
 }
-
 #hgpxovoknh .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
 }
-
 #hgpxovoknh .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
 }
-
 #hgpxovoknh .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
 }
-
 #hgpxovoknh .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
 }
-
 #hgpxovoknh .gt_column_spanner_outer:first-child {
-  padding-left: 0;
+padding-left: 0;
 }
-
 #hgpxovoknh .gt_column_spanner_outer:last-child {
-  padding-right: 0;
+padding-right: 0;
 }
-
 #hgpxovoknh .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
 }
-
 #hgpxovoknh .gt_spanner_row {
-  border-bottom-style: hidden;
+border-bottom-style: hidden;
 }
-
 #hgpxovoknh .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
 }
-
 #hgpxovoknh .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
 }
-
 #hgpxovoknh .gt_from_md > :first-child {
-  margin-top: 0;
+margin-top: 0;
 }
-
 #hgpxovoknh .gt_from_md > :last-child {
-  margin-bottom: 0;
+margin-bottom: 0;
 }
-
 #hgpxovoknh .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
 }
-
 #hgpxovoknh .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #hgpxovoknh .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
 }
-
 #hgpxovoknh .gt_row_group_first td {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #hgpxovoknh .gt_row_group_first th {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #hgpxovoknh .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #hgpxovoknh .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
+border-top-style: solid;
+border-top-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_first_summary_row.thick {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #hgpxovoknh .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #hgpxovoknh .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
+background-color: rgba(128, 128, 128, 0.05);
 }
-
 #hgpxovoknh .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #hgpxovoknh .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
 }
-
 #hgpxovoknh .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #hgpxovoknh .gt_left {
-  text-align: left;
+text-align: left;
 }
-
 #hgpxovoknh .gt_center {
-  text-align: center;
+text-align: center;
 }
-
 #hgpxovoknh .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
+text-align: right;
+font-variant-numeric: tabular-nums;
 }
-
 #hgpxovoknh .gt_font_normal {
-  font-weight: normal;
+font-weight: normal;
 }
-
 #hgpxovoknh .gt_font_bold {
-  font-weight: bold;
+font-weight: bold;
 }
-
 #hgpxovoknh .gt_font_italic {
-  font-style: italic;
+font-style: italic;
 }
-
 #hgpxovoknh .gt_super {
-  font-size: 65%;
+font-size: 65%;
 }
-
 #hgpxovoknh .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
 }
-
 #hgpxovoknh .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
+font-size: 100%;
+vertical-align: 0;
 }
-
 #hgpxovoknh .gt_indent_1 {
-  text-indent: 5px;
+text-indent: 5px;
 }
-
 #hgpxovoknh .gt_indent_2 {
-  text-indent: 10px;
+text-indent: 10px;
 }
-
 #hgpxovoknh .gt_indent_3 {
-  text-indent: 15px;
+text-indent: 15px;
 }
-
 #hgpxovoknh .gt_indent_4 {
-  text-indent: 20px;
+text-indent: 20px;
 }
-
 #hgpxovoknh .gt_indent_5 {
-  text-indent: 25px;
+text-indent: 25px;
 }
-
 #hgpxovoknh .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
 }
-
 #hgpxovoknh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
+height: 0px !important;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_heading">
-      <td colspan="7" class="gt_heading gt_title gt_font_normal" style>Sample Size and Targeted Events Based on AHR Method</td>
+      <td colspan="8" class="gt_heading gt_title gt_font_normal" style>Sample Size and Targeted Events Based on AHR Method</td>
     </tr>
     <tr class="gt_heading">
-      <td colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Fixed Design with 85% Power, One-sided 2.5% Type I error</td>
+      <td colspan="8" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Fixed Design with 85% Power, One-sided 2.5% Type I error</td>
     </tr>
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Design">Design</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="N">N</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Events">Events</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Time">Time</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="AHR">AHR</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Bound">Bound</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="alpha">alpha</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Power">Power</th>
@@ -865,494 +823,468 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td headers="N" class="gt_row gt_right">516</td>
 <td headers="Events" class="gt_row gt_right">295</td>
 <td headers="Time" class="gt_row gt_right">36.01</td>
-<td headers="Bound" class="gt_row gt_right">1.96</td>
-<td headers="alpha" class="gt_row gt_right">0.025</td>
-<td headers="Power" class="gt_row gt_right">0.85</td></tr>
+<td headers="AHR" class="gt_row gt_right">0.70</td>
+<td headers="Bound" class="gt_row gt_right">1.959964</td>
+<td headers="alpha" class="gt_row gt_right">0.03</td>
+<td headers="Power" class="gt_row gt_right">0.8504588</td></tr>
   </tbody>
-  
   
 </table>
 </div>
-<p>Now we set the derived targeted sample size, enrollment rate, and event count from the above.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>sample_size &lt;-<span class="st"> </span>x<span class="op">$</span>analysis<span class="op">$</span>n</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>target_event &lt;-<span class="st"> </span>x<span class="op">$</span>analysis<span class="op">$</span>event</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>enroll_rate &lt;-<span class="st"> </span>x<span class="op">$</span>enroll_rate</span></code></pre></div>
+<p>Now we set the derived targeted sample size, enrollment rate, and
+event count from the above.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> x<span class="sc">$</span>analysis<span class="sc">$</span>n</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>target_event <span class="ot">&lt;-</span> x<span class="sc">$</span>analysis<span class="sc">$</span>event</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>enroll_rate <span class="ot">&lt;-</span> x<span class="sc">$</span>enroll_rate</span></code></pre></div>
 </div>
 <div id="step-2-run-sim_fixed_n" class="section level1">
 <h1>Step 2: Run <code>sim_fixed_n()</code></h1>
-<p>Now that we have set up the design characteristics in Step 1, we can proceed to run <code>sim_fix_n()</code> for our simulations. This function automatically utilizes a parallel computing backend, which helps reduce the running time.</p>
-<p>The <code>timing_type</code> specifies one or more of the following cutoffs for setting the time for analysis:</p>
+<p>Now that we have set up the design characteristics in Step 1, we can
+proceed to run <code>sim_fix_n()</code> for our simulations. This
+function automatically utilizes a parallel computing backend, which
+helps reduce the running time.</p>
+<p>The <code>timing_type</code> specifies one or more of the following
+cutoffs for setting the time for analysis:</p>
 <ul>
 <li><code>timing_type = 1</code>: The planned study duration.</li>
-<li><code>timing_type = 2</code>: The time until target event count has been observed.</li>
-<li><code>timing_type = 3</code>: The planned minimum follow-up period after enrollment completion.</li>
-<li><code>timing_type = 4</code>: The maximum of planned study duration and time to observe the targeted event count (i.e., using <code>timing_type = 1</code> and <code>timing_type = 2</code> together).</li>
-<li><code>timing_type = 5</code>: The maximum of time to observe the targeted event count and minimum follow-up following enrollment completion (i.e., using <code>timing_type = 2</code> and <code>timing_type = 3</code> together).</li>
+<li><code>timing_type = 2</code>: The time until target event count has
+been observed.</li>
+<li><code>timing_type = 3</code>: The planned minimum follow-up period
+after enrollment completion.</li>
+<li><code>timing_type = 4</code>: The maximum of planned study duration
+and time to observe the targeted event count (i.e., using
+<code>timing_type = 1</code> and <code>timing_type = 2</code>
+together).</li>
+<li><code>timing_type = 5</code>: The maximum of time to observe the
+targeted event count and minimum follow-up following enrollment
+completion (i.e., using <code>timing_type = 2</code> and
+<code>timing_type = 3</code> together).</li>
 </ul>
-<p>The <code>rho_gamma</code> argument is a data frame containing the variables <code>rho</code> and <code>gamma</code>, both of which should be greater than or equal to zero, to specify one Fleming-Harrington weighted log-rank test per row. For instance, setting <code>rho = 0</code> and <code>gamma = 0</code> yields the standard unweighted log-rank test, while <code>rho = 0 and gamma = 0.5</code> provides the weighted Fleming-Harrington (0, 0.5) log-rank test. If you are interested in tests other than the Fleming-Harrington weighted log-rank test, please refer to the vignette at <a href="https://merck.github.io/simtrial/articles/sim_fixed_design_custom.html">“Articles”/“Simulate fixed/group sequential designs”/“Custom Fixed Design Simulations: A Tutorial on Writing Code from the Ground Up”</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>sim_res &lt;-<span class="st"> </span><span class="kw">sim_fixed_n</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="dt">n_sim =</span> <span class="dv">2</span>, <span class="co"># only use 2 simulations for initial run</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  <span class="dt">sample_size =</span> sample_size, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>  <span class="dt">block =</span> block, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>  <span class="dt">stratum =</span> stratum,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>  <span class="dt">target_event =</span> target_event, </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>  <span class="dt">total_duration =</span> total_duration,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>  <span class="dt">enroll_rate =</span> enroll_rate, </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>  <span class="dt">fail_rate =</span> fail_rate,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>  <span class="dt">timing_type =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>  <span class="dt">rho_gamma =</span> <span class="kw">data.frame</span>(<span class="dt">rho =</span> <span class="dv">0</span>, <span class="dt">gamma =</span> <span class="dv">0</span>))</span></code></pre></div>
-<p>The output of <code>sim_fixed_n</code> is a data frame with one row per simulated dataset per cutoff specified in <code>timing_type</code>, per test statistic specified in <code>rho_gamma</code>. Here we have just run 2 simulated trials and see how the different cutoffs vary for the 2 trial instances.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>sim_res <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">gt</span>() <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">tab_header</span>(<span class="st">&quot;Tests for Each Simulation Result&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;Logrank Test for Different Analysis Cutoffs&quot;</span>) <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">fmt_number</span>(<span class="dt">columns =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dt">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>The <code>rho_gamma</code> argument is a data frame containing the
+variables <code>rho</code> and <code>gamma</code>, both of which should
+be greater than or equal to zero, to specify one Fleming-Harrington
+weighted log-rank test per row. For instance, setting
+<code>rho = 0</code> and <code>gamma = 0</code> yields the standard
+unweighted log-rank test, while <code>rho = 0 and gamma = 0.5</code>
+provides the weighted Fleming-Harrington (0, 0.5) log-rank test. If you
+are interested in tests other than the Fleming-Harrington weighted
+log-rank test, please refer to the vignette at <a href="https://merck.github.io/simtrial/articles/sim_fixed_design_custom.html">“Articles”/“Simulate
+fixed/group sequential designs”/“Custom Fixed Design Simulations: A
+Tutorial on Writing Code from the Ground Up”</a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sim_res <span class="ot">&lt;-</span> <span class="fu">sim_fixed_n</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">n_sim =</span> <span class="dv">2</span>, <span class="co"># only use 2 simulations for initial run</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">sample_size =</span> sample_size, </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">block =</span> block, </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">stratum =</span> stratum,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">target_event =</span> target_event, </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">total_duration =</span> total_duration,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">enroll_rate =</span> enroll_rate, </span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">fail_rate =</span> fail_rate,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">timing_type =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="at">rho_gamma =</span> <span class="fu">data.frame</span>(<span class="at">rho =</span> <span class="dv">0</span>, <span class="at">gamma =</span> <span class="dv">0</span>))</span></code></pre></div>
+<p>The output of <code>sim_fixed_n</code> is a data frame with one row
+per simulated dataset per cutoff specified in <code>timing_type</code>,
+per test statistic specified in <code>rho_gamma</code>. Here we have
+just run 2 simulated trials and see how the different cutoffs vary for
+the 2 trial instances.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>sim_res <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="st">&quot;Tests for Each Simulation Result&quot;</span>, <span class="at">subtitle =</span> <span class="st">&quot;Logrank Test for Different Analysis Cutoffs&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="at">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
 <div id="vtciravqij" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#vtciravqij table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
 }
-
 #vtciravqij thead, #vtciravqij tbody, #vtciravqij tfoot, #vtciravqij tr, #vtciravqij td, #vtciravqij th {
-  border-style: none;
+border-style: none;
 }
-
 #vtciravqij p {
-  margin: 0;
-  padding: 0;
+margin: 0;
+padding: 0;
 }
-
 #vtciravqij .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
 }
-
 #vtciravqij .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
+padding-top: 4px;
+padding-bottom: 4px;
 }
-
 #vtciravqij .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
 }
-
 #vtciravqij .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
 }
-
 #vtciravqij .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
 }
-
 #vtciravqij .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #vtciravqij .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
 }
-
 #vtciravqij .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
 }
-
 #vtciravqij .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
 }
-
 #vtciravqij .gt_column_spanner_outer:first-child {
-  padding-left: 0;
+padding-left: 0;
 }
-
 #vtciravqij .gt_column_spanner_outer:last-child {
-  padding-right: 0;
+padding-right: 0;
 }
-
 #vtciravqij .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
 }
-
 #vtciravqij .gt_spanner_row {
-  border-bottom-style: hidden;
+border-bottom-style: hidden;
 }
-
 #vtciravqij .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
 }
-
 #vtciravqij .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
 }
-
 #vtciravqij .gt_from_md > :first-child {
-  margin-top: 0;
+margin-top: 0;
 }
-
 #vtciravqij .gt_from_md > :last-child {
-  margin-bottom: 0;
+margin-bottom: 0;
 }
-
 #vtciravqij .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
 }
-
 #vtciravqij .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #vtciravqij .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
 }
-
 #vtciravqij .gt_row_group_first td {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #vtciravqij .gt_row_group_first th {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #vtciravqij .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #vtciravqij .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
+border-top-style: solid;
+border-top-color: #D3D3D3;
 }
-
 #vtciravqij .gt_first_summary_row.thick {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #vtciravqij .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #vtciravqij .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #vtciravqij .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
 }
-
 #vtciravqij .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
 }
-
 #vtciravqij .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
+background-color: rgba(128, 128, 128, 0.05);
 }
-
 #vtciravqij .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #vtciravqij .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
 }
-
 #vtciravqij .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #vtciravqij .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
 }
-
 #vtciravqij .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #vtciravqij .gt_left {
-  text-align: left;
+text-align: left;
 }
-
 #vtciravqij .gt_center {
-  text-align: center;
+text-align: center;
 }
-
 #vtciravqij .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
+text-align: right;
+font-variant-numeric: tabular-nums;
 }
-
 #vtciravqij .gt_font_normal {
-  font-weight: normal;
+font-weight: normal;
 }
-
 #vtciravqij .gt_font_bold {
-  font-weight: bold;
+font-weight: bold;
 }
-
 #vtciravqij .gt_font_italic {
-  font-style: italic;
+font-style: italic;
 }
-
 #vtciravqij .gt_super {
-  font-size: 65%;
+font-size: 65%;
 }
-
 #vtciravqij .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
 }
-
 #vtciravqij .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
+font-size: 100%;
+vertical-align: 0;
 }
-
 #vtciravqij .gt_indent_1 {
-  text-indent: 5px;
+text-indent: 5px;
 }
-
 #vtciravqij .gt_indent_2 {
-  text-indent: 10px;
+text-indent: 10px;
 }
-
 #vtciravqij .gt_indent_3 {
-  text-indent: 15px;
+text-indent: 15px;
 }
-
 #vtciravqij .gt_indent_4 {
-  text-indent: 20px;
+text-indent: 20px;
 }
-
 #vtciravqij .gt_indent_5 {
-  text-indent: 25px;
+text-indent: 25px;
 }
-
 #vtciravqij .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
 }
-
 #vtciravqij div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
+height: 0px !important;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
@@ -1479,482 +1411,432 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td headers="sim" class="gt_row gt_right">2</td></tr>
   </tbody>
   
-  
 </table>
 </div>
 </div>
 <div id="step-3-summarize-simulations" class="section level1">
 <h1>Step 3: Summarize simulations</h1>
-<p>Now we run 100 simulated trials and summarize the results by how data is cutoff for analysis.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>sim_res &lt;-<span class="st"> </span><span class="kw">sim_fixed_n</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>  <span class="dt">n_sim =</span> n_sim,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>  <span class="dt">sample_size =</span> sample_size, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>  <span class="dt">block =</span> block, <span class="dt">stratum =</span> stratum,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>  <span class="dt">target_event =</span> target_event, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>  <span class="dt">total_duration =</span> total_duration,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>  <span class="dt">enroll_rate =</span> enroll_rate, </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>  <span class="dt">fail_rate =</span> fail_rate,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>  <span class="dt">timing_type =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>  <span class="dt">rho_gamma =</span> <span class="kw">data.frame</span>(<span class="dt">rho =</span> <span class="dv">0</span>, <span class="dt">gamma =</span> <span class="dv">0</span>))</span></code></pre></div>
-<p>With the 100 simulations provided, users can summarize the simulated power and compare it to the targeted 85% power. All cutoff methods approximate the targeted power well and have a similar average duration and mean number of events.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>sim_res <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(cut) <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="st">`</span><span class="dt">Simulated Power</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mean</span>(z <span class="op">&gt;</span><span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.025</span>)), </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>            <span class="st">`</span><span class="dt">Mean events</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mean</span>(event),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>            <span class="st">`</span><span class="dt">Mean duration</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mean</span>(duration)) <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">Sample size</span><span class="st">`</span> =<span class="st"> </span>sample_size,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a>         <span class="st">`</span><span class="dt">Targeted events</span><span class="st">`</span> =<span class="st"> </span>target_event) <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a><span class="st">  </span><span class="kw">gt</span>() <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a><span class="st">  </span><span class="kw">tab_header</span>(<span class="dt">title =</span> <span class="st">&quot;Summary of 100 simulations by 5 different analysis cutoff methods&quot;</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a>             <span class="dt">subtitle =</span> <span class="st">&quot;Tested by logrank&quot;</span>) <span class="op">|</span><span class="er">&gt;</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a><span class="st">  </span><span class="kw">fmt_number</span>(<span class="dt">columns =</span> <span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>Now we run 100 simulated trials and summarize the results by how data
+is cutoff for analysis.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>sim_res <span class="ot">&lt;-</span> <span class="fu">sim_fixed_n</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">n_sim =</span> n_sim,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">sample_size =</span> sample_size, </span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">block =</span> block, <span class="at">stratum =</span> stratum,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="at">target_event =</span> target_event, </span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="at">total_duration =</span> total_duration,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="at">enroll_rate =</span> enroll_rate, </span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="at">fail_rate =</span> fail_rate,</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="at">timing_type =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="at">rho_gamma =</span> <span class="fu">data.frame</span>(<span class="at">rho =</span> <span class="dv">0</span>, <span class="at">gamma =</span> <span class="dv">0</span>))</span></code></pre></div>
+<p>With the 100 simulations provided, users can summarize the simulated
+power and compare it to the targeted 85% power. All cutoff methods
+approximate the targeted power well and have a similar average duration
+and mean number of events.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>sim_res <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">group_by</span>(cut) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="st">`</span><span class="at">Simulated Power</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(z <span class="sc">&gt;</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.025</span>)), </span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>            <span class="st">`</span><span class="at">Mean events</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(event),</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>            <span class="st">`</span><span class="at">Mean duration</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(duration)) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Sample size</span><span class="st">`</span> <span class="ot">=</span> sample_size,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>         <span class="st">`</span><span class="at">Targeted events</span><span class="st">`</span> <span class="ot">=</span> target_event) <span class="sc">|&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">&quot;Summary of 100 simulations by 5 different analysis cutoff methods&quot;</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Tested by logrank&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">decimals =</span> <span class="dv">2</span>)</span></code></pre></div>
 <div id="gvsspbhvay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#gvsspbhvay table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
 }
-
 #gvsspbhvay thead, #gvsspbhvay tbody, #gvsspbhvay tfoot, #gvsspbhvay tr, #gvsspbhvay td, #gvsspbhvay th {
-  border-style: none;
+border-style: none;
 }
-
 #gvsspbhvay p {
-  margin: 0;
-  padding: 0;
+margin: 0;
+padding: 0;
 }
-
 #gvsspbhvay .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
+padding-top: 4px;
+padding-bottom: 4px;
 }
-
 #gvsspbhvay .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
 }
-
 #gvsspbhvay .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
 }
-
 #gvsspbhvay .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
 }
-
 #gvsspbhvay .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
 }
-
 #gvsspbhvay .gt_column_spanner_outer:first-child {
-  padding-left: 0;
+padding-left: 0;
 }
-
 #gvsspbhvay .gt_column_spanner_outer:last-child {
-  padding-right: 0;
+padding-right: 0;
 }
-
 #gvsspbhvay .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
 }
-
 #gvsspbhvay .gt_spanner_row {
-  border-bottom-style: hidden;
+border-bottom-style: hidden;
 }
-
 #gvsspbhvay .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
 }
-
 #gvsspbhvay .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
 }
-
 #gvsspbhvay .gt_from_md > :first-child {
-  margin-top: 0;
+margin-top: 0;
 }
-
 #gvsspbhvay .gt_from_md > :last-child {
-  margin-bottom: 0;
+margin-bottom: 0;
 }
-
 #gvsspbhvay .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
 }
-
 #gvsspbhvay .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #gvsspbhvay .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
 }
-
 #gvsspbhvay .gt_row_group_first td {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #gvsspbhvay .gt_row_group_first th {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #gvsspbhvay .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #gvsspbhvay .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
+border-top-style: solid;
+border-top-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_first_summary_row.thick {
-  border-top-width: 2px;
+border-top-width: 2px;
 }
-
 #gvsspbhvay .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #gvsspbhvay .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
+background-color: rgba(128, 128, 128, 0.05);
 }
-
 #gvsspbhvay .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #gvsspbhvay .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
 }
-
 #gvsspbhvay .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
 }
-
 #gvsspbhvay .gt_left {
-  text-align: left;
+text-align: left;
 }
-
 #gvsspbhvay .gt_center {
-  text-align: center;
+text-align: center;
 }
-
 #gvsspbhvay .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
+text-align: right;
+font-variant-numeric: tabular-nums;
 }
-
 #gvsspbhvay .gt_font_normal {
-  font-weight: normal;
+font-weight: normal;
 }
-
 #gvsspbhvay .gt_font_bold {
-  font-weight: bold;
+font-weight: bold;
 }
-
 #gvsspbhvay .gt_font_italic {
-  font-style: italic;
+font-style: italic;
 }
-
 #gvsspbhvay .gt_super {
-  font-size: 65%;
+font-size: 65%;
 }
-
 #gvsspbhvay .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
 }
-
 #gvsspbhvay .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
+font-size: 100%;
+vertical-align: 0;
 }
-
 #gvsspbhvay .gt_indent_1 {
-  text-indent: 5px;
+text-indent: 5px;
 }
-
 #gvsspbhvay .gt_indent_2 {
-  text-indent: 10px;
+text-indent: 10px;
 }
-
 #gvsspbhvay .gt_indent_3 {
-  text-indent: 15px;
+text-indent: 15px;
 }
-
 #gvsspbhvay .gt_indent_4 {
-  text-indent: 20px;
+text-indent: 20px;
 }
-
 #gvsspbhvay .gt_indent_5 {
-  text-indent: 25px;
+text-indent: 25px;
 }
-
 #gvsspbhvay .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
 }
-
 #gvsspbhvay div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
+height: 0px !important;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
@@ -2007,20 +1889,22 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <td headers="Targeted events" class="gt_row gt_right">295</td></tr>
   </tbody>
   
-  
 </table>
 </div>
-<p>We can also do things like summarize distribution of event counts at the planned study duration. We can see the event count varies a fair amount.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">hist</span>(sim_res<span class="op">$</span>event[sim_res<span class="op">$</span>cut <span class="op">==</span><span class="st"> &quot;Planned duration&quot;</span>], </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>     <span class="dt">breaks =</span> <span class="dv">10</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>     <span class="dt">main =</span> <span class="st">&quot;Distribution of Event Counts at Planned Study Duration&quot;</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Event Count at Targeted Trial Duration&quot;</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<p>We also evaluate the distribution of the trial duration when analysis is performed when the targeted events are achieved.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">density</span>(sim_res<span class="op">$</span>duration[sim_res<span class="op">$</span>cut <span class="op">==</span><span class="st"> &quot;Targeted events&quot;</span>]), </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>     <span class="dt">main =</span> <span class="st">&quot;Trial Duration Smoothed Density&quot;</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Trial duration when Targeted Event Count is Observed&quot;</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>We can also do things like summarize distribution of event counts at
+the planned study duration. We can see the event count varies a fair
+amount.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">hist</span>(sim_res<span class="sc">$</span>event[sim_res<span class="sc">$</span>cut <span class="sc">==</span> <span class="st">&quot;Planned duration&quot;</span>], </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">10</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Distribution of Event Counts at Planned Study Duration&quot;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Event Count at Targeted Trial Duration&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p>We also evaluate the distribution of the trial duration when analysis
+is performed when the targeted events are achieved.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(sim_res<span class="sc">$</span>duration[sim_res<span class="sc">$</span>cut <span class="sc">==</span> <span class="st">&quot;Targeted events&quot;</span>]), </span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Trial Duration Smoothed Density&quot;</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Trial duration when Targeted Event Count is Observed&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAEgCAMAAABrWDzDAAADAFBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1OTk5PT09QUFBRUVFSUlJTU1NUVFRVVVVWVlZXV1dYWFhZWVlaWlpbW1tcXFxdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29wcHBxcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5eXl6enp7e3t8fHx9fX1+fn5/f3+AgICBgYGCgoKDg4OEhISFhYWGhoaHh4eIiIiJiYmKioqLi4uMjIyNjY2Ojo6Pj4+QkJCRkZGSkpKTk5OUlJSVlZWWlpaXl5eYmJiZmZmampqbm5ucnJydnZ2enp6fn5+goKChoaGioqKjo6OkpKSlpaWmpqanp6eoqKipqamqqqqrq6usrKytra2urq6vr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy9vb2+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHx8fIyMjJycnKysrLy8vMzMzNzc3Ozs7Pz8/Q0NDR0dHS0tLT09PU1NTV1dXW1tbX19fY2NjZ2dna2trb29vc3Nzd3d3e3t7f39/g4ODh4eHi4uLj4+Pk5OTl5eXm5ubn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7////isF19AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAgAElEQVR4nO2dd2AT5fvA35aySoGW0rSFtsguooCsVuCLFQSLrIKAUCp7KLbIpoA/RECGbEERZOOggFikRWRIQERG2TKUssuu7NGZ93fv5XK5NEmTy3u5u4Tn80d6l7zv8z539+ntew9hAKAAKZ0A4NqAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBAhcoFahnFc0r/TeuoMSYljOND2GLth+61J/Dh5OR882AWyF07tH2XUZt0otK2I/raqKgz3KCoxDEXV9+E8qhcIC/Es0//TQkUbVLCOB7JFfQYmmU7cHeEssyDmXOmsj7oK5fFpG1H9KkIHeAGRSWOubj6JpRH5QLFdu/eXYNQW+bPOf0373efblLCRKAO3bvW8URohu3A+vlfMJgZ2TURajAoNhihhnki0hYtkP2JYy5rEMhuohBKx/h5VNTnTyYN5LYL+xM6xCTsJ7+aCJTB/Nnmjfzu4+tRUYuZkcVRUdf5qoJq42shNOpXLpjux2Ft41fkYH0jd6d36vOToe3DCPVj/mS3QOgkvhsVtWhHXPspN/D2j9qPu4NNqgqHuehMao9mde6znf31+sz33p1ymx28M7PT8MOmAhkTF5Q0zebkyI7vjjlNhkjW+iby20W1JmIPjmqr1PbMZQR6glDPWBSuF+b/9Ot8svowEwjHI/QVTmfmLzM8itQ1VBVUYzeNifrKN6PYb187zzbSqjYZmcLF/BGhOeTv/gEDDuEMhMJJxZqTPZjP0EcmVYXDfPTICDL0LfPr9vJkqPROZvAc2Sp6tzYTSJ+4oKRJNos82K3cHG6SuSZiEWL2nB55oe7yLAtzXEmg8qhoPXbunfNANaaNKY+KZVsSSItQQkGB2KqCanuYVcr2i/rKXRFqPjWa+WAbQUH96yJU4rk+JrMGKv3Jvqf6EUYgVKcPWb51evsj9I1JVeEwHx3592+OkAbjhwGo5rIvK6AyzJrldcaLISRKQYHYxAUlhdncLYpemj6hMvJM108y18QvxCKcjNAm+ZaHKa4kEPo2Vz/3NlSrtov9hz1tSSDGneiCArFVhdWMeynHmeXJrP97IPQbKenPbJqYhf43F/R98p/uGd7rhxxWoHLZOBUhv2yy5IabVBUO89FLXsA6JlgmnsFG3IXQZ3gHQn0wPu1lLhCbuKCkMJvtCE3AeGdk5HaTnehsP/Qqxh8in+fyLhMjriRQJBnjhPl343gfhI5bEugWQhEFBYrkyvDVjAItRyiF+eUQ2bQxJTszw5/xx3wYb+oawG6aat8gAsWyGjHbi8sIxZtUFQ7z0f/HfDOMpNAdFUtMTBxJDGGCkzMSbc0FYhMXlBRmc4xsHSf+lc/PAm4negBCV3AVkpdCuJJAPcgYO/eWVyL7A1YEOk6WcwGB2KrCakaBEhH6h/ntAUJ9Sck4Zni2QCCGq5tHlierjQwiDffJCiSsKhw2OQpjU2hsOBlRH8chxGx58WhzgdjEBSVNsknwJF8GTMk3FWgnQovPI5Ts1CVQGK4kEJmb7NxLYfZmZ++bZkWg1Qh9WlAgtqqwmnERM9uMI8yP1xD62FygCwcOsDtAV4syO+FmAgmrCofNBYpGAVqWw7gXQveYr4ebC8QmLihpms3lWU2JQ/NNBcoPQu2+QqUV24K5pkB92Dkeb1mgXOZ/+Hd8Ub/67yUUSFjNuIh/RugL5seVZK/YTKCZCK0gf/PLoqbmAgmrCofNBfoIFWe+0KWlXSBbpPXM16+ZCaRPXFBSmE16GqPnLebYP6bAicQE5N1KP3nK4JICMTNvIz5YxlygP9L/SXkLoRbM3qUn8vn59sqiQoGE1Zjha/rKDzTIT4sPBSPvq+YCHfNAZb+5kJnWjRztmAkkrCocFkTnBNpF6ucx7izHexAKPXh/nOlRmDFxQUlhNmMQ2socFHowu+68QNdI5f1ky7ZFxsVRAJcUaAkzz0qiEuQf1sKlDFSabEveZgc1QoGE1UYwR8jz9ZVXs1+zKxDzfaBJhqB1n5gLJKxqMiyIrheI7DMHlEPoTeZgrh4br7j5pQx94saSwmyOMaE1ZZkWTnCTrG+CWVcx+3Vls2VaFBZwSYHy+yHkFb+UHKmYC+TR4hIZu8RsEIpPGikUSFgtvSJ/IhH/Vp2pFkK2K+YC6ZLqkqD+E+9hCwIJqpoMC6PrBcoayhjjPZzsUGW8VwyhjhPMBOISN5Y0yWbX66TMqzu4WcA1wTAWod5Om/e2cQGBjmu1zD5ivlZ7lozt1Z5kPm+lPcNPtNo0wzjhKLvvmXaXG9VdOZqNL5C6hqrCajjr2IknfOV7h9kLE4aS17Tah8b2H//N/Zqt1Z43fGaxn4KqpsOC6GwKDLmnTht2dbOOZuIrWu0jy4nzJQtkk3ny0E1snAVsEwybEUoVPU+lwwUEAgqlL/JVcAsGArk4U5k9qiFKJgACuTYDEGp2W8kEQCCAChAIoAIEAqgAgQAqQCCAChAIoAIEAqgAgQAqQCCAChAIoAIEAqgAgQAqQCCAChAIoAIEAqgAgQAqQCCAChAIoAIEAqgAgQAqQCCAChAIoAIEAqgAgQAqQCCAChAIoAIEAqgAgQAqJBZoRAPALWh2SxmBIlemAe5A9RMKCfSXtPEAhagDAgE0gEB2ci15esL7XfsMn7P5gtKpqAoQyB7SRlbTtB29YPX6FXOHtw3z7zD/nNIZqQYQyCb5GxpXnnhc8MWNpIGh1ROPKJaQqgCBbLGrbuPN5m/5OzK+as0pol6P6qaAQIVzt2fln6z8dCC+fIvvlHt5iUqQV6Cnu3Zw1LD31dXK8muFkU+t/5q1oY1/wknrv78IyCvQgbcMeM2RIp6TyRsfusdGkSufhkauLMQxt0epTZjPt9LGcwYPolvesV0qb0s7/49f3KMyEMgqV2on5NpX8vKE4BY/iXldvBsBAlnjVOh8+wtnr2sWNvM/5yWjXkAgKxwITBJX4WifckPOOycXNQMCWeYPzVbRdW5+EtDtuO1i7gUIZJE9mp2OVHs8p2LHo1Lnom5AIEvs0+xysObzhRW6/SNpLioHBLLAIc12xys/nR4w9AXanQaBzDkZRPdy47tDApeYXz1zU0AgM85XFHn8Zc6JZpEvyhUOEKggGVWW0gfRfauZmEMfxgUAgQrwX+2ZksS50f61U5IEUjkgkClPIsdIFWp5wAKdVLHUCwhkQnbr/tIt9PTGHdz/cAwEEpLfrbOU10RzRlY6KGE4VQICCdB90DJL2ojJmiXSBlQdIJCAcY0eSR3y31cGZksdU1WAQEZmvpwpfdDHnZvdlj6qehAv0AqK51mOdjXgNdvxKE7i66rXnRFW9+lL9s5jV0S8QB1RzcmO3vfyYMN6jpLfOBjCaawKu+ikyOsCUpwUWQWIF0i3f2gwilhgb68eVlDdJuyHis67iH6gwkKnxVYah/aB8ncPLl+k9aqHFO2qTaCk4L+dGP1S7Y/d9ZZpx3ai7yyPRsWLlxzp+FxRmUBJwc69+Hm/ZUc3ffbHAYEuzmvu6f3uD4/uzy26obAaOTsXb7lr7Ud1CfS9k/3BOLt3Y/c8GBMvUBwqG7fpGTvYYJLlsgerXcD4bC2EUJkVVsKpSqBlFU87vQ3dpKpu+fCYeIG+3MqfGbti5bybFjHzqn71HU9vTfQ6ZLmImgSa+5IsT1OsCnKNx7nFIV6gJ9x9Lg+s33RHBLqC/iSD7wy1XERFAk0IvypPQzs1P8jTkJyIFyhqnf6vj/XHD4hAaegxGRzRznIR1QiUO7CR1R01qTlV6XO5mpINkQI9j4kp3zCG8Aa6YrWsFu3HT8ttI4OvWLm9Ri0CPW7b5ol8rd1o1NfdroyJFCgrLi6wWRxLIQZoESpVN1jzGJ97s7iV9ZRKBLpef6Cdz79Lw9NOUW52i5D4TdiQHTbL6m7sWzOpV7O7eLb/j1aKqEOgI6EzZG4xf0z1szI36VycezX+vtUzjaoQaL1mk/yNrtKkyt+o8xApUOoanLqM4yZNuyoQKH/CS4o8yb6/4gw3uldapEBtKuJ2vhz7aNpVXqAHbaPs6D7KGWREdH2sTMtO4IW9oexUjaGy7j4LyRpQ223OSjso0O2US4UVjm3IM9hyCaUFWhewVsnmlwdYO7pwNcQLlDWwGb7kh4qsLqTwgXao3gA9syyXUFag3OFVFe7I51j1D9yjh2DxAs0v8RkeVuH0BP/CHmDIq/SJpa9zLxgopaRAN5u3vadg8ywPe9Q5o3QOUiBeoM6xGNeYgK+jQq9g97Yo0N4qBjyleYDYIf4MmaSGzjOWBbjDIz/iBYr5AF9Eu/FjlFZY8fv3Cw+n4Cbs60CVnIg5W7+jQseBEiJeoGlBW7r75+ZNLmpDkcJRTKDnfeuo5n1N2WMruPzt9uIFetgYeS7Fg9B4u6rtsPJODKUEuh7RTcaLpzbZW2Wg5M8yyosDh/F5Jy9jvPtP+6oFRVn+XiGBDoZMV9dZ4EcDqmiVzoEKZ59I3Gjl0qsyAv2o+UWJZgslpeKwZ0rnQIF4gfJmvBnJQtWfrRIC6T57SY0dz/3XI/yA0jk4jniBFqFGI0YRCt0XzT+Tsi7liPWzLQoIlN0rgvJpSGexIWiCy95nJl6gDu/YLpwzqzIieMVYO+Erv0APW3ZS7aNZtzrUc9X+8MQL1PQz24UHFh+27cyNi0e+bV7OyulW2QW6UTdezQ+HrgiYo4aTm+IRL9CUWjYPPO97JHND+W+PtlxEboH+rTxN3gbFcrFZywylc3AE8QJtrx388RezGa5ZLXsM8Q86TImxXERmgY5VWC5rew6QNzXwZ6VzcADxAnUN4bD+2tzsUoncUEa4lX98eQX6M9Dam3PVxIEqQ1zvCr1zzgOtRjXiv1i6aEonn0gr2ztZBdqp+U3G1hznYfe6LnejmUMC3Tlj65bMk4NqlkFFApsvtXbdQE6Btmpc5pnipQGu9vCqAwKlN0RIO+pDm2vb54UdVsgo0OZAFzpPd7x6vGudEhIv0GnfFusqazeX7kHVrnwC/RRU6H0nauNh50jrRycqxIEHCxvm4Ve0ONWD6l4W2QTaGHRMppYkQjezgitdXhUv0DtjMBHoKTpM065cArmcPww7gxYonYL9iBdoxBusQHuRAw95nx5koOg88bUdYJML+oPxpXp9XOZ4XrxAf3v3TAv/ZVdYBwdau7XEQPGvHagummSX9Afjp+9FOKXPaifgwFHYTtJ3HepE16u7LJuwLYEUnaIrim5aiIscOjpyHijv5KZU2k655RDo10Ar/eu5Als0a5ROwS7c+NHm7RrrF1tcgNPVRqn59gED4gU6MC+h18Q1tLeCO1+gXRqq3h+U57+3oqkefJEHsQJdaI08g2v4IH/KI02nC6TV7HFyC04nd1gN9T+8KlKgJ6+EriSPNP/TFxX2bLxtnC3QXs1u5zYgC6s1qr/DQ6RAi0oabkvvXZ6qXScLtFezy6nx5eJw2ASV7wiJFKhXC8P4n+gSTbvOFWhvgO2OHF2DOy1ay9YLsUOIFCjqQ8N4JqK6YuNUgfZodjoxurzkjQuz8xlOZRArULxh/IF6Bdql+d15weUnJWiGiu+3d0OBfnWd+8fs42rzluq9sCFWIO8gDo1aBdoU6NLnDy2RNyUwSekcrCFSoAXxRqheceM0gVYHu+b108I5VKurSp+qdbdLGfPD3KsjeAPPEwNXqKtfEQ73Ekg3vpb1V8C4OMcimlJ1Z+Ek3EqgnD4R6j5pQkX+sqD+6tuZdieBHrRqr9ruEyThwVj/0Wr7D5FZoHsGnCDQpVdU3X2CJGQM8R91Q+kkTJBXoN1+Bjwk7+b3j2AXuhXdca59XK63mu6zdJtN2OJA13h8mZ57M16KWK6at7W4iUDP+rwqy5uX1UH+lhi/XtsUe1eMCe4h0NlX31dT570ycHtBhGbQ9hyl03ATgZYHLJMwmqtwadbr5WLXKX3Xq7MESv961Aej5myx+i8ioUB3OtUt9LUdbsyNpe3KvDHT3kXoFJwj0M22nkU0NcJKo4BVVkpIJ9D64LGu1Z+FtDzbGl+1Yr/1ir0L2jkCNamczO6TnJ/gZeXYSCqBrsW87HYX30VzfmG7spET9ymyV+0Uga4ivnffQYMsF5FGoOwvyk9+kVc/RrJ/T6zvF/PVv7I37BSBziL+kuY4K90ISSLQpurt0yUI4y7c+b5vSKV+P8h734dTBNJVaq3vsjZ/s98Ky0UkEGh3k7ovyrlD+zm7MMavdvzG27I16Jx9oLQg9Mo7sV1a+qN4KyWoBdoeVf07Fd8qrCB5abPa+4X3X3FGlvuHnHQYn/PD4A4RUe9NtLpNphMo+7v6tde4/ZVTCvKPL+pZ1bfV2PXnnf1P5oonEs+PC2qVosrb89TFndTJMS/5NO4/K/W88w7QXO5E4u2vmwWOdLnelJXjwb4lw9+uXKJ69IdfJP11Q/p/O9c6kXh6VnPfnikquALkamSdS100skvjoGJVmseNWfDzweuSbdlc5kRi/qkl71eo/EGqy3QeqEqy0rVrpyd0bBRcLKRJt2Fzk/Zdof1vdIUTiXf2LU34X5mavb+Fkz6SkXNl37o5w7o2CS0W3LDDR1NWbj1x07GVkmpPJOZl/vvXlpWfJ3SsV7ZcZP+5O5W+6uyu5F8/lLxwQp82dYKKBr3aonv8pwvWbPnjxIV79q6Z5D2ReDFxLIfvN89M+Xo4w6D+/Xt26dQqqnHtyiG1IqN7fDT5m82Hbz4D5ODxlaM7kr6ZPvbD2HZRjcNDQsLrNX6jVdsuXXr1799/OMv4SZM+yyhQq5msJxIvzzAQmlIgka0rGJI2bkzZsevQ0X+u/SfXbAOs8PjmpX+OHfpjx47NGzduXMHy1bx5C24XKOYcgWyfSIyEa+jugVInEkEgN8HZAn222PL3kYlLCmV2qzjJadlD8pAx7SQP2fNNyUPGRXeVPGS3nvoFVdHJAgVFWf7+20GF08a7luQUryJ5SE05yUPW8JQ8ZK3SIZKHDC2vX1BDHzpXoBsOPor7ZxPH6hXGy9LfOj17pOQh7/tKHhK/u1HykKnviKwg8T6QLUAgKXFBgWxdTLUFCCQlLieQ7YuptgCBpMTlBLJ9MdUWIJCUuJpAdlxMtQUIJCWuJpAdF1NtAQJJiasJZMdTGbYAgaTE1QSy46kMWxxs7mDFQqjzj+QhF4yVPOTjAMlD4vc2Sx5yu9h35kp8MdUWOic87E33lleLPHdCrzJOSPOB9DfV598TWUHmE4mAuwECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAV8gl09xD3WrXcExck6oUk58xJqXv10F05zD2urzt1VaKYT46k6yc468S/kvcsdl36Lu9ELSC5BHrcDSHUknQSObUEQrXSpIi5RYNQWe6+kuyuqVKEPPcaQkXiySJZXw6hzpL0NTylGELVDzADa3yZAamevNRP8J03Eaoo2cOcP3cln+IWkFwCJfr88nR/QA+MF6MZ9/5uUEmCy923y3S78uBDL/3dQKORJO/ViKx17NkqjyUY7yoyOXNbkUkShNzGTPDFJmG5+JTXsHuXW1aQaJ2pn+B3K6ZdbV9eopDX/EKw6AUkl0A1E5mPcQEYR5AbTo4gCXry/dGLmchnRb4iw7/7SCLQTbSN+Xyd+Ufs9DYz0C9CgpiDI5mP39BpPK9YLsZ/oQMSxDRM8LUi32OcWWSlJCF1b3oTgUQuILkEmnqQ+RhZHePX5jIDN5Cjj3UI2EfejvjQk5mF+F7IYkkEyphENrINBuInxZZLEI7luyTmYwvKwGs97xGTJHkBGjfBPyJyl1FkNylC4i/ChxKBRC4g+Xain6UtKTOPG16A/pYk5qVd7auRZ2S7xjyXZhPG7OvvH1P6D3wO/XlwUZLYm6uscSK5Zgyz0Gs0//mLSu0kichN8FxvMtKtoRQhj5U6nBhiGLF/Ackn0AGEGt/UDy4t0k+amNEIkS7RVgbezZJKoBkIDcjCe1Hn0g18gw5LE7ME8iOR1iEvD5+zUgQ0TPDYCmRsULgEIZ/VmoJ5gUQsIPkE0j1Ji6hGjm8uvuUxTKIeWXNuLfRYiy+UTsGSCZR3PzWgP96KIv7DDyNflibm8wt9S5zH64uuzHn0se8Z+nj8BE8qT0Z7SbEGGhKZZxBI1AKS9UTiX+gUxhvLNJRmP1LP2+/iNv/Tarej0Vqp+rifXl6Xhsj96uvQdYlC5vosxK06MQP5YRPpo/ETvNiL/Ee2b08f8qDHt1ptbIA2XewCkkmgk157mM9zaDvWFh0t0YLu0pJ8dm+C6yE9D6hDLvQm/3nfeD6/xR6ObUbXqEPigMnkM2g8rv4BGWjYiz4kP8G/I9KNT4gEDyElcyGHiV1AMgmU5fsh8zm56B3c1ErPQuKZWfIycwwbMAznMTxBSyTw8iBiDpl0b9XDuFUXHdZ1rkwfErepwxy970HJuFcoY/ipola65hIDP8H5ocMx3omO0YfUkZhjKubli11Acm3CkrzajI/xmIkfooZ9CAfpQz5qEjh0eGiY/nEZifaBEor1SWxUgllbpvk1Hdu0xA4JQp7W1B07oGRbHc4IrjRicOmmEj2Ko5/gdV4Dx5eX6IgEs/tAYheQbPtAe0a3/UDLHHhH6fldgpCP5sV2mfZIP5wTJcmlDPzd4HajLpCBs2PaDZPm3R3nJ8f0WkUuLt2f3Cl2sVSPcnETvHNQtyWSXQxb2lX8AoKr8QAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBABQgEUAECAVSAQAAVIBBAhSICLeK6gkBvkbF2cYKfunQRjJyz3k/W1W0FKlolLsb+VAqBNGiKITtDxxbN7Kp9ulsN7/DE+/Y1Zj6F6f3q+tQfcIkZCplvI2OLnJN6gSsiUPrGjRujfZmPvWRs6jzBT/YKtMy3QEWrFC6QaSqFsMzsrctGgeZuJOy2p/aGEhHTV3xcqlGWXY2ZTeF3pcLHr0ysVjrpxRaIEB/EDZj2J1u4QMay5ssTY8v9FlgUyKQon4qFdgpp0ChQYf0J5prUvh/wPvnisOeXdhUvSHqJHqRL3yedS12zIZC1XnrdTKDu8asqr4ph1tP5i+p4B/e+LxBo9st+bbcziyZ6ADOyyocrayiXyGwykklFvKmxzyvT8xlPBiUULd7kOFt3XDkdzi5RhVleHvMZgZLqlXqddKFzqEXZ0LHZpkX5VPgM2Hbw93X931vpa6zENshH4LMj8AItKELeSR1by7wlfW2G8T763mgGjhGkzk+iWXEyhZn9KpR6nVs/dtE8ZP9m+vbGIbNHVArudV9QwNAqOwXmyXBJS7wcFRao/qurrpO59CUatWVOqUFGgT7zGP7zAB8TgUhZQ7nHc8rcyiIVN6CBKVOLjWBmvl+DX9eE1WYr/45Okj49r+NUdAbHBTTe9mO1OhinFYtNmVumm2lRPhU+A7adTZ4TtnQr7musxDbIR+CzI/ACXfNYi3F2mWnmLbG1SZG3BK9l51M3ClSwOJnCDhUXJ73up1+jBMZzdftVxSHl3twwv2xDHV+Ab5WdAvNkuKQlXo4KC1Tiun4uTSYdmA1qzAv0yIeZsfhdE4FIWb4cWcmTiuGdmS9mFb+N40rcxHgOYjuHzPZehOdGllqPx4Vg/Q8rPPJxNOkS73t02qQonwofmW3nVcYkXW2mDb7SMsGIMTuCYSc6EUd2xTjF47KFlgzbpAofG+cAn7pRoILFyRT6fMLsecezfe39hxZxdWd6PgsJY9YqqWgrX4BvlZ0Cs2QMSUu3CFkUFoh0Bc9uiXDOP5uqNuQFOsB2/pdsIpC+23iuHCfQI7SO+e4K2onjXmcGUpB+5zS6K+4y9q0E3Kwfs1SasJHydN6zMjMzL6A1pkUxvw/ERSbtPEQpzBdjfLGx0jLBiDE7jI070afw7NLZuO//sIWWDEYEGgUypm4UqGBxMmuaBEw3dA2cib7ihuaguyHDyID/VEMBY6v6OVUwGUPSdIvNDIUFImt0Mpcy3inq16ShUaBktgv2oyYCkbJ8OU6gc0jLfJuLVuO4tthoxZxAXOGXya9lFWeWUVxHNl7ebW5F8aVpUUMqfGTSzt+I9PA22xcbKy0TjBiz0+dq2Im+hH7L9f8GW2jJYMSbXD/jv47OM6ZuFKhgcTJrbg32R6Gf61+fE5jAtTSgtC5kBhmom2AoYGyVnVNmyRiSlmTpGVFYIHKEROZSw/8x/0SJRoEOs/8uOwwCzffhyvLl+DUQeZFABtqO48iiMVhxEm1Dd3d7pnpmckdhjEA5RdZzTZsUNaTCRybtZLJroERfbKy0TDBizA5jk6OwBh/tKPYfttCSwYhRpW6zf6PrCVLnJ9GsuH7lnH9kKNufOsadA/U9+t0rF4v1ayDNLEMBY6vdYywlY0jazuVjL+oQKMuD9BgZYxTocZlRzOcAZtG8QzoNbcsJZCxn2AeqQcrPLXazgBVBb9TAz4pFNcJGgXD995mBLeEZFgUyRmZzqky65K3DtMFXWiYYMWaHsYlA00IHk/WdeUsGI277dSPHQ1uLTBakzk+iJYGuVNvNDISNZcfPF48lh/FP3y2XgUMq5ZBXb+zjC/CtcgIVSMaQNM1Cs4A6BMLV627dHVcqOF1wFDY6dVgYs2gSPabvH1HEsAbiy60usvceqZiEhvw2o/jwgquVONQX46ZoAhYIlOrRN3VOQCcrayA+MtvOj56TtvUMK4eNlUiD/AifHWZjL0hmycP/ohIbMLbQEqnNFl7r9dq0lR8Ur5stSJ2fRLPizLrZnnwAAAFjSURBVBTmVw3/IWWIp1af6mrvlz9d+0mNopsxDvFolbzIL9pYgG+VE6hgMlzSEi9HlQh0rGmpWjOPh0YZzwPNetk3+gKziB739EWBMwwC8eXuNij5K7uC/6mRz8vseSATK1aTdf44RHo35wXCv0b6hI18YkUgPrJ+9i+vHjzm8zBsrEQa5Ef47DA2HoUh5oc6Zdh3d5m1xNZmOdL+pVJ1JjzFgtT5STQrTqbwdJtyPo1+MuT6b9+63uG9yBt/Qha9Fxg65JmggKFVTqCCyXBJS7UAOVzhYupdqbrGtZ/vyVsAe7eSrT0FJlEiXEEgBYirlPY4ueRPtgu+8IBAFrkX44kCZkv+Ols3BASyQlam0hm4BiAQQAUIBFABAgFUgEAAFSAQQAUIBFABAgFUgEAAFSAQQAUIBFABAgFUgEAAFSAQQAUIBFABAgFUgEAAFSAQQAUIBFABAgFUgEAAFSAQQMX/A4t931rYpWcEAAAAAElFTkSuQmCC" /><!-- --></p>
 </div>
 
 

@@ -1,3 +1,15 @@
+# simtrial 1.0.2
+
+## Bug fixes
+
+- `sim_gs_n()` is updated to provide updated efficacy bound when it is one-sided design (#348, thanks to @LittleBeannie).
+- The cut date driven by stratified targeted events is fixed in `get_analysis_date()` (#347, thanks to @LittleBeannie).
+
+## Programming improvements
+
+- Added an internal helper function `cut_from_design()` to automatically generate cuttings based on the design object (#350, thanks to @yihui).
+- Updated significant digits required for `sim_gs_n()` test to verify the asymptotic theory from {gsDesign2} (#355, thanks to @jdblischak).
+
 # simtrial 1.0.1
 
 ## Statistical improvements
