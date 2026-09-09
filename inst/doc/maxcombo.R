@@ -12,7 +12,7 @@ knitr::opts_chunk$set(eval = run)
 library(simtrial)
 library(knitr)
 library(dplyr)
-library(gt)
+library(lt)
 
 ## -----------------------------------------------------------------------------
 set.seed(123)
@@ -24,8 +24,8 @@ x <- sim_fixed_n(
 )
 
 x |>
-  gt() |>
-  fmt_number(columns = c("ln_hr", "z", "duration", "v1", "v2", "v3"), decimals = 2)
+  lt() |>
+  lt_format(columns = c("ln_hr", "z", "duration", "v1", "v2", "v3"), decimals = 2)
 
 ## ----message=FALSE, warning=FALSE, cache=FALSE--------------------------------
 set.seed(123)
@@ -34,16 +34,16 @@ s <- sim_pw_surv(n = 100)
 
 s |>
   head() |>
-  gt() |>
-  fmt_number(columns = c("enroll_time", "fail_time", "dropout_time", "cte"), decimals = 2)
+  lt() |>
+  lt_format(columns = c("enroll_time", "fail_time", "dropout_time", "cte"), decimals = 2)
 
 ## ----warning=FALSE, message=FALSE---------------------------------------------
 x <- s |> cut_data_by_event(75)
 
 x |>
   head() |>
-  gt() |>
-  fmt_number(columns = "tte", decimals = 2)
+  lt() |>
+  lt_format(columns = "tte", decimals = 2)
 
 ## ----warning=FALSE, message=FALSE---------------------------------------------
 z <- s |>
@@ -63,7 +63,7 @@ z
 library(survival)
 aml |>
   head() |>
-  gt()
+  lt()
 
 ## ----warning=FALSE, message=FALSE---------------------------------------------
 x <- aml |> transmute(
@@ -78,7 +78,7 @@ x <- aml |> transmute(
 
 x |>
   head() |>
-  gt()
+  lt()
 
 ## ----warning=FALSE, message=FALSE---------------------------------------------
 x |> maxcombo(rho = c(0, 0), gamma = c(0, 1))

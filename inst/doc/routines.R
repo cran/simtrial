@@ -4,13 +4,12 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-run <- requireNamespace("dplyr", quietly = TRUE) &&
-  requireNamespace("gt", quietly = TRUE)
+run <- requireNamespace("dplyr", quietly = TRUE)
 knitr::opts_chunk$set(eval = run)
 
 ## ----message=FALSE, warning=FALSE---------------------------------------------
 library(simtrial)
-library(gt)
+library(lt)
 library(dplyr)
 
 ## -----------------------------------------------------------------------------
@@ -77,15 +76,15 @@ x <- sim_pw_surv(
 )
 
 head(x) |>
-  gt() |>
-  fmt_number(columns = c("enroll_time", "fail_time", "dropout_time", "cte"), decimals = 2)
+  lt() |>
+  lt_format(columns = c("enroll_time", "fail_time", "dropout_time", "cte"), decimals = 2)
 
 ## -----------------------------------------------------------------------------
 y <- cut_data_by_date(x, cut_date = 5)
 
 head(y) |>
-  gt() |>
-  fmt_number(columns = "tte", decimals = 2)
+  lt() |>
+  lt_format(columns = "tte", decimals = 2)
 
 ## -----------------------------------------------------------------------------
 cut50Positive <- get_cut_date_by_event(filter(x, stratum == "Positive"), 50)
@@ -101,8 +100,8 @@ table(y150$event, y150$treatment)
 ten150 <- counting_process(y150, arm = "experimental")
 
 head(ten150) |>
-  gt() |>
-  fmt_number(columns = c("tte", "o_minus_e", "var_o_minus_e"), decimals = 2)
+  lt() |>
+  lt_format(columns = c("tte", "o_minus_e", "var_o_minus_e"), decimals = 2)
 
 ## -----------------------------------------------------------------------------
 z <- with(ten150, sum(o_minus_e) / sqrt(sum(var_o_minus_e)))
@@ -162,8 +161,8 @@ sim_fixed_n(
   timing_type = 1:5, # Use all possible data cutoff methods
   rho_gamma = rho_gamma # FH test(s) to use; in this case, logrank
 ) |>
-  gt() |>
-  fmt_number(columns = c("ln_hr", "z", "duration"))
+  lt() |>
+  lt_format(columns = c("ln_hr", "z", "duration"))
 
 ## -----------------------------------------------------------------------------
 enroll_rate |> summarize(

@@ -2,7 +2,7 @@
 library(gsDesign2)
 library(simtrial)
 library(dplyr)
-library(gt)
+library(lt)
 
 set.seed(2025)
 
@@ -83,8 +83,8 @@ sim_res <- sim_gs_n(
   test = test, weight = weight, cut = cut)
 
 ## -----------------------------------------------------------------------------
-sim_res |> head(n = 6) |> gt() |> tab_header("Overview Each Simulation results") |>
-  fmt_number(columns = c(5, 8:12), decimals = 2)
+sim_res |> head(n = 6) |> lt() |> lt_header("Overview Each Simulation results") |>
+  lt_format(columns = c(5, 8:12), decimals = 2)
 
 ## ----message=FALSE------------------------------------------------------------
 sim_res |>
@@ -93,8 +93,8 @@ sim_res |>
   summarize(`Mean time` = mean(cut_date), `sd(time)` = sd(cut_date), `Simulated power` = mean(z >= eff_bound)) |>
   ungroup() |>
   mutate(`Asymptotic power` = x$bound$probability[x$bound$bound == "upper"]) |>
-  gt() |>
-  tab_header("Summary of 100 simulations") |> 
-  fmt_number(columns = 2, decimals = 1) |>
-  fmt_number(columns = 3:5, decimals = 2)
+  lt() |>
+  lt_header("Summary of 100 simulations") |> 
+  lt_format(columns = 2, decimals = 1) |>
+  lt_format(columns = 3:5, decimals = 2)
 

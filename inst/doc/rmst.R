@@ -4,15 +4,12 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-run <- requireNamespace("gt", quietly = TRUE) &&
-  requireNamespace("survRM2", quietly = TRUE)
+run <- requireNamespace("survRM2", quietly = TRUE)
 knitr::opts_chunk$set(eval = run)
 
 ## ----message=FALSE, warning=FALSE---------------------------------------------
 # # Simulate NPH data from the piecewise model
 # library(simtrial)
-# # Table display
-# library(gt)
 
 ## -----------------------------------------------------------------------------
 # data(ex1_delayed_effect)
@@ -21,7 +18,7 @@ knitr::opts_chunk$set(eval = run)
 #   time_var = data_single_arm$month,
 #   event_var = data_single_arm$evntd,
 #   tau = 10
-# ) |> gt()
+# ) |> lt()
 
 ## -----------------------------------------------------------------------------
 # tau <- 10

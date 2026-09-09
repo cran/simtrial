@@ -2,7 +2,6 @@
 library(gsDesign)
 library(gsDesign2)
 library(dplyr)
-library(gt)
 library(simtrial)
 library(tidyr)
 library(survival)
@@ -42,7 +41,7 @@ scenarios <- tribble(
   6,         "Strong null",   3,       18,        .25,
   6,         "Strong null",   4,       12,        .2,
 )
-# scenarios |> gt()
+scenarios |> lt()
 
 ## -----------------------------------------------------------------------------
 fr <- scenarios |>
@@ -58,7 +57,7 @@ fr <- scenarios |>
   select(-x_rate) |>
   filter(Period > 0, Scenario > 0) |>
   ungroup()
-# fr |> gt() |> fmt_number(columns = everything(), decimals = 2)
+fr |> lt()
 
 fr <- fr |> mutate(fail_rate = rate, dropout_rate = 0.001, stratum = "All")
 

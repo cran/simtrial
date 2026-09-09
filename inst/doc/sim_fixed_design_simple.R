@@ -2,7 +2,7 @@
 library(gsDesign2)
 library(simtrial)
 library(dplyr)
-library(gt)
+library(lt)
 
 set.seed(2027)
 
@@ -21,10 +21,10 @@ fail_rate <- data.frame(stratum = "All",
 x <- fixed_design_ahr(enroll_rate = enroll_rate, fail_rate = fail_rate, 
                       alpha = 0.025, power = 0.85, ratio = 1, 
                       study_duration = total_duration) |> to_integer()
-x |> summary() |> gt() |> 
-  tab_header(title = "Sample Size and Targeted Events Based on AHR Method", 
+x |> summary() |> lt() |> 
+  lt_header(title = "Sample Size and Targeted Events Based on AHR Method", 
              subtitle = "Fixed Design with 85% Power, One-sided 2.5% Type I error") |>
-  fmt_number(columns = c(4, 5, 7), decimals = 2)
+  lt_format(columns = c(4, 5, 7), decimals = 2)
 
 ## -----------------------------------------------------------------------------
 sample_size <- x$analysis$n
@@ -46,9 +46,9 @@ sim_res <- sim_fixed_n(
 
 ## -----------------------------------------------------------------------------
 sim_res |>
-  gt() |>
-  tab_header("Tests for Each Simulation Result", subtitle = "Logrank Test for Different Analysis Cutoffs") |>
-  fmt_number(columns = c(4, 5, 7), decimals = 2)
+  lt() |>
+  lt_header("Tests for Each Simulation Result", subtitle = "Logrank Test for Different Analysis Cutoffs") |>
+  lt_format(columns = c(4, 5, 7), decimals = 2)
 
 ## ----message=FALSE------------------------------------------------------------
 sim_res <- sim_fixed_n(
@@ -70,10 +70,10 @@ sim_res |>
             `Mean duration` = mean(duration)) |>
   mutate(`Sample size` = sample_size,
          `Targeted events` = target_event) |>
-  gt() |>
-  tab_header(title = "Summary of 100 simulations by 5 different analysis cutoff methods",
+  lt() |>
+  lt_header(title = "Summary of 100 simulations by 5 different analysis cutoff methods",
              subtitle = "Tested by logrank") |>
-  fmt_number(columns = c(2:4), decimals = 2)
+  lt_format(columns = c(2:4), decimals = 2)
 
 ## ----fig.width = 6------------------------------------------------------------
 hist(sim_res$event[sim_res$cut == "Planned duration"], 

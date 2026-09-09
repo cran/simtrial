@@ -460,16 +460,14 @@ can be calculated as <span class="math display">\[
 predefined significant level, and <span class="math inline">\(z_{\alpha/2}\)</span> is the upper <span class="math inline">\(1-\alpha/2\)</span> critical value for the
 standard normal distribution.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Simulate NPH data from the piecewise model</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(simtrial)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># Table display</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(simtrial)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">data</span>(ex1_delayed_effect)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>data_single_arm <span class="ot">&lt;-</span> ex1_delayed_effect[ex1_delayed_effect<span class="sc">$</span>trt <span class="sc">==</span> <span class="dv">1</span>, ]</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>simtrial<span class="sc">:::</span><span class="fu">rmst_single_arm</span>(</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">time_var =</span> data_single_arm<span class="sc">$</span>month,</span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">event_var =</span> data_single_arm<span class="sc">$</span>evntd,</span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">tau =</span> <span class="dv">10</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">gt</span>()</span></code></pre></div>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">lt</span>()</span></code></pre></div>
 <div id="estimation-of-rmst-differences-in-2-arms-at-a-single-time-point" class="section level2">
 <h2>Estimation of RMST differences in 2 arms at a single time point</h2>
 <p>Let <span class="math inline">\(\text{RMST}_{1}(\tau)\)</span> and

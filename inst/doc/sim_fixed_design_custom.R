@@ -2,7 +2,7 @@
 library(gsDesign2)
 library(simtrial)
 library(dplyr)
-library(gt)
+library(lt)
 library(doFuture)
 library(tibble)
 set.seed(2025)
@@ -24,7 +24,7 @@ uncut_data_a <- sim_pw_surv(n = n, stratum = stratum, block = block,
                             dropout_rate = to_sim_pw_surv(fail_rate)$dropout_rate)
 
 ## -----------------------------------------------------------------------------
-uncut_data_a |> head() |> gt() |> tab_header("An Overview of Simulated TTE data")
+uncut_data_a |> head() |> lt() |> lt_header("An Overview of Simulated TTE data")
 
 ## -----------------------------------------------------------------------------
 differential_dropout_rate <- data.frame(
@@ -130,7 +130,7 @@ cut_date <- cut_date_d
 cat("The cutoff date is ", round(cut_date, 2))
 
 cut_data <- uncut_data |> cut_data_by_date(cut_date)
-cut_data |> head() |> gt() |> tab_header(paste0("An Overview of TTE data Cut at ", round(cut_date, 2), "Months"))
+cut_data |> head() |> lt() |> lt_header(paste0("An Overview of TTE data Cut at ", round(cut_date, 2), "Months"))
 
 ## -----------------------------------------------------------------------------
 # Logrank test
@@ -166,7 +166,7 @@ sim_res <- tribble(
   sim_res_mc$method, sim_res_mc$parameter, NA, NA, NA, sim_res_mc$p_value
   ) 
 
-sim_res |> gt() |> tab_header("One Simulation Results")
+sim_res |> lt() |> lt_header("One Simulation Results")
 
 ## -----------------------------------------------------------------------------
 one_sim <- function(sim_id = 1, 
@@ -251,7 +251,7 @@ ans <- data.table::rbindlist(ans)
 plan("sequential")
 
 ## -----------------------------------------------------------------------------
-ans |> head() |> gt() |> tab_header("Overview Each Simulation results")
+ans |> head() |> lt() |> lt_header("Overview Each Simulation results")
 
 ## ----message=FALSE------------------------------------------------------------
 ans_non_mc <- ans |>
@@ -266,6 +266,6 @@ ans_mc <- ans |>
 
 ans_non_mc |>
   union(ans_mc) |>
-  gt() |>
-  tab_header("Summary from 100 simulations")
+  lt() |>
+  lt_header("Summary from 100 simulations")
 

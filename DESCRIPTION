@@ -1,7 +1,7 @@
 Package: simtrial
 Type: Package
 Title: Clinical Trial Simulation
-Version: 1.0.2
+Version: 1.1.0
 Authors@R: c(
     person("Keaven", "Anderson", email = "keaven_anderson@merck.com", role = c("aut")),
     person("Yujie", "Zhao", email = "yujie.zhao@merck.com", role =  c("aut","cre")),
@@ -39,16 +39,17 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 Depends: R (>= 4.1.0)
-Imports: Rcpp, data.table (>= 1.12.4), doFuture, foreach, future,
+Imports: Rcpp, data.table (>= 1.12.4), doFuture, foreach, future, lt,
         methods, mvtnorm, stats, survival, utils
 Suggests: Matrix, covr, dplyr, ggplot2, gsDesign, gsDesign2 (>= 1.1.4),
-        gt, knitr, rmarkdown, survMisc, survRM2, testthat (>= 3.0.0),
-        tibble, tidyr
+        gt, knitr, rmarkdown, survRM2, testthat (>= 3.0.0), tibble,
+        tidyr
 LinkingTo: Rcpp
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
+Config/Needs/tests: cran/survMisc
 NeedsCompilation: yes
-Packaged: 2025-11-20 21:29:51 UTC; zhayuji4
+Packaged: 2026-09-09 14:42:12 UTC; xieyih
 Author: Keaven Anderson [aut],
   Yujie Zhao [aut, cre],
   John Blischak [aut],
@@ -69,4 +70,4 @@ Author: Keaven Anderson [aut],
     <https://ror.org/02891sr49>)
 Maintainer: Yujie Zhao <yujie.zhao@merck.com>
 Repository: CRAN
-Date/Publication: 2025-11-20 22:10:03 UTC
+Date/Publication: 2026-09-09 18:20:02 UTC

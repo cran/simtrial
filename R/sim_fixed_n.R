@@ -51,6 +51,20 @@
 #'   (1 and 2).
 #' - `5`: The maximum of targeted event count and minimum follow-up cuts
 #'   (2 and 3).
+#' 
+#' For custom timing options beyond the 5 predefined ones above,
+#' please instead use [sim_pw_surv()] function to generate time-to-event data
+#' and [get_analysis_date()] to calculate timing.
+#' Refer to the vignette on [Custom Fixed Design Simulations](https://merck.github.io/simtrial/articles/sim_fixed_design_custom.html)
+#' for a detailed tutorial.
+#' 
+#' If you are doing a custom fixed design simulation, you are not limited to the logrank or weighted logrank (Fleming-Harrington) tests.
+#' The following are supported: RMST via [rmst()], weighted logrank tests
+#' via [wlr()] (including Fleming-Harrington, Magirr-Burman, and Xu2017 weights),
+#' and MaxCombo test via [maxcombo()]. 
+#' Refer to the vignette on [Custom Fixed Design Simulations](https://merck.github.io/simtrial/articles/sim_fixed_design_custom.html)
+#' for a detailed tutorial.
+#'
 #'
 #' @return
 #' A data frame including columns:
